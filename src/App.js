@@ -21,12 +21,20 @@ const Outline = styled.div`
 
 const Body = styled.div`
   z-index: 1;
-  font-size: 1.3rem;
+  font-size: 1.4rem;
   line-height: 1.6;
-  color: rgba(23, 63, 103, 0.95);
-  padding: 15vh 3rem;
+  color: rgba(23, 63, 103, 0.85);
+  padding: 25vh 5rem;
   max-width: 72rem;
   margin: 0 auto;
+  @media (max-width: 700px) {
+    padding: 15vh 1.5rem;
+    font-size: 1.3rem;
+  }
+  @media (max-width: 500px) {
+    padding: 15vh 1.5rem;
+    font-size: 1.1rem;
+  }
 `;
 
 const H3 = styled.h3`
@@ -34,8 +42,35 @@ const H3 = styled.h3`
 `;
 
 const P = styled.p`
-  margin-bottom: 0.5rem;
+  margin-bottom: 1rem;
   margin-top: 0;
+  cursor: default;
+  strong {
+    font-weight: 400;
+    color: rgba(23, 63, 103, 0.85);
+    position: relative;
+    white-space: nowrap;
+    &:after {
+      content: " ";
+      height: 3px;
+      width: 100%;
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: -4px;
+      background-color: rgba(23, 63, 103, 0.7);
+      transition: bottom 300ms, height 300ms, background-color 300ms;
+    }
+    &:hover {
+      cursor: default;
+      color: rgba(23, 63, 103, 1);
+    }
+    &:hover:after {
+      background-color: rgba(23, 63, 103, 0.95);
+      height: 4px;
+      bottom: -4px;
+    }
+  }
 `;
 
 const Flex = styled.div`
@@ -48,16 +83,24 @@ class App extends Component {
   render() {
     return (
       <Flex
-        style={{ position: "absolute", top: 0, right: 0, bottom: 0, left: 0 }}
+        style={{
+          position: "absolute",
+          top: "1.5rem",
+          right: "1.5rem",
+          bottom: "1.5rem",
+          left: "1.5rem"
+        }}
       >
-        <Header />
+        {/* <Header /> */}
         <Body style={{ flex: 1, width: "100%" }}>
           <div style={{ maxWidth: 400 }}>
             <H3>Hello! I’m Brent.</H3>
             <P>
-              I'm a multidisciplinary developer from Charlottesville, Virginia
-              where I do product design and machine learning at TwinThread, an
-              IIoT analytics business.
+              I'm a <strong>multidisciplinary developer</strong> from
+              Charlottesville, Virginia where I do{" "}
+              <strong>product design</strong> and{" "}
+              <strong>machine learning</strong> at <strong>TwinThread</strong>,
+              an IIoT analytics business.
             </P>
             <P>
               I am available to work with startups to develop and implement

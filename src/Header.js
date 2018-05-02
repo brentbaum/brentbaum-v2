@@ -32,7 +32,8 @@ export const Header = () => (
           style={{
             color: "rgba(23, 63, 103, .85)",
             fontSize: "1.2rem",
-            letterSpacing: 2
+            letterSpacing: 2,
+            cursor: "default"
           }}
         >
           <b>BRENT</b>
