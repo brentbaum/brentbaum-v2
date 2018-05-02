@@ -59,7 +59,7 @@ const P = styled.p`
       right: 0;
       bottom: -4px;
       background-color: rgba(23, 63, 103, 0.7);
-      transition: bottom 300ms, height 300ms, background-color 300ms;
+      transition: bottom 500ms, height 500ms, background-color 500ms;
     }
     &:hover {
       cursor: default;
