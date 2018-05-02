@@ -34,7 +34,7 @@ export const start = () => {
     ctx.fill();
   }
 
-  function Box(start) {
+  function Box(index) {
     this.half_size = Math.floor(Math.random() * 40 + 10);
     this.x = -1;
     this.y = -1;
@@ -50,7 +50,7 @@ export const start = () => {
     }
     this.r = (1 + Math.random()) * Math.PI;
     this.shadow_length = 2000;
-    this.color = colors[Math.floor(Math.random() * colors.length)];
+    this.color = colors[index % colors.length];
 
     this.getDots = function() {
       var full = Math.PI * 2 / 4;
@@ -155,8 +155,10 @@ export const start = () => {
   resize();
   draw();
 
+  let index = 0;
   while (boxes.length < 14) {
-    boxes.push(new Box());
+    boxes.push(new Box(index));
+    index++;
   }
 
   window.onresize = resize;
