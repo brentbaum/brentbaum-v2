@@ -34,11 +34,21 @@ export const start = () => {
     ctx.fill();
   }
 
-  function Box() {
-    this.half_size = Math.floor(Math.random() * 50 + 1);
-    this.x = Math.floor(Math.random() * c.width + 1);
-    this.y = Math.floor(Math.random() * c.height + 1);
-    this.r = Math.random() * 2 * Math.PI;
+  function Box(start) {
+    this.half_size = Math.floor(Math.random() * 40 + 10);
+    this.x = -1;
+    this.y = -1;
+    while (
+      this.x < 0 ||
+      this.y < 0 ||
+      (this.x < 0.5 * c.width &&
+        this.y < 0.7 * c.height &&
+        this.y > 0.3 * c.height)
+    ) {
+      this.x = Math.floor(Math.random() * c.width + 1);
+      this.y = Math.floor(Math.random() * c.height + 1);
+    }
+    this.r = (1 + Math.random()) * Math.PI;
     this.shadow_length = 2000;
     this.color = colors[Math.floor(Math.random() * colors.length)];
 
