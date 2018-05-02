@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { BackgroundAnimation } from "./Background";
 import logo from "./logo.svg";
 import styled from "styled-components";
 import "./App.css";
@@ -13,7 +14,6 @@ const Outline = styled.div`
   bottom: 0;
   left: 0;
   border: 1.5rem solid white;
-  background-color: #edf2f7;
 
   display: flex;
   flex-direction: column;
@@ -23,7 +23,7 @@ const Body = styled.div`
   z-index: 1;
   font-size: 1.4rem;
   line-height: 1.6;
-  color: rgba(23, 63, 103, 0.85);
+  color: rgba(244, 250, 255, 0.95);
   padding: 25vh 5rem;
   max-width: 72rem;
   margin: 0 auto;
@@ -39,15 +39,17 @@ const Body = styled.div`
 
 const H3 = styled.h3`
   margin-bottom: 1rem;
+  position: relative;
 `;
 
 const P = styled.p`
   margin-bottom: 1rem;
   margin-top: 0;
+  position: relative;
   cursor: default;
   strong {
     font-weight: 400;
-    color: rgba(23, 63, 103, 0.85);
+    color: rgba(244, 250, 255, 0.95);
     position: relative;
     white-space: nowrap;
     &:after {
@@ -58,15 +60,15 @@ const P = styled.p`
       left: 0;
       right: 0;
       bottom: -4px;
-      background-color: rgba(23, 63, 103, 0.7);
+      background-color: rgba(255, 255, 255, 0.7);
       transition: bottom 500ms, height 500ms, background-color 500ms;
     }
     &:hover {
       cursor: default;
-      color: rgba(23, 63, 103, 1);
+      color: rgba(255, 255, 255, 0.95);
     }
     &:hover:after {
-      background-color: rgba(23, 63, 103, 0.95);
+      background-color: rgba(255, 255, 255, 0.95);
       height: 4px;
       bottom: -4px;
     }
@@ -93,6 +95,7 @@ class App extends Component {
       >
         {/* <Header /> */}
         <Body style={{ flex: 1, width: "100%" }}>
+          <BackgroundAnimation />
           <div style={{ maxWidth: 400 }}>
             <H3>Hello! I’m Brent.</H3>
             <P>
