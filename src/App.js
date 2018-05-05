@@ -66,11 +66,13 @@ const S = styled.strong`
     background-color: rgba(255, 255, 255, 0.7);
     transition: bottom 300ms, height 300ms;
   }
-  &:hover {
+  &:hover,
+  &.selected {
     cursor: default;
     color: ${props => props.color};
   }
-  &:hover:after {
+  &:hover:after,
+  &.selected:after {
     background-color: ${props => props.color};
     height: 4px;
     bottom: -4px;
@@ -83,19 +85,79 @@ const Flex = styled.div`
   justify-content: center;
 `;
 
-const L = ({ onChange, color, children }) => (
-  <span
-    onMouseLeave={() => onChange({ color: "white" })}
-    onMouseEnter={() => onChange({ color })}
-  >
-    <S color={color}>{children}</S>
-  </span>
+const Intro = styled.div`
+  max-width: 400px;
+  span {
+    opacity: ${props => props.o};
+  }
+`;
+
+const F = styled.span`
+  transition: opacity 300ms;
+`;
+
+const L = ({ onChange, color, children, selected, onSelect, position }) => (
+  <React.Fragment>
+    <F
+      onMouseLeave={() => onChange({ color: "white" })}
+      onMouseEnter={() => onChange({ color })}
+      onClick={e => {
+        onChange({ o: 0, selected: color });
+        onSelect(e);
+      }}
+      style={{
+        opacity: !selected ? 1 : 0
+      }}
+    >
+      <S color={color}>{children}</S>
+    </F>
+    {selected === color && (
+      <F
+        style={{
+          color: console.log(color) || "white",
+          opacity: 1,
+          position: "fixed",
+          top: position.y - 5,
+          left: position.x
+        }}
+      >
+        <S color={color} className={selected === color ? "selected" : ""}>
+          {children}
+        </S>
+      </F>
+    )}
+  </React.Fragment>
 );
 
 class App extends Component {
-  state = { color: "white" };
+  state = { color: "white", o: 1, selected: null };
+  yellow = "#f5c156";
+  red = "#e6616b";
+  green = "#5cd3ad";
+  blue = "#70bfff";
+
   onChange = change => this.setState(change);
+  L = (color, text) => {
+    const component = (
+      <L
+        color={color}
+        onChange={this.onChange}
+        selected={this.state.selected}
+        onSelect={e => {
+          console.log(e.target.get);
+          this.setState({
+            position: e.target.getBoundingClientRect()
+          });
+        }}
+        position={this.state.position}
+      >
+        {text}
+      </L>
+    );
+    return component;
+  };
   render() {
+    const o = this.state.o;
     return (
       <Flex
         style={{
@@ -109,32 +171,27 @@ class App extends Component {
         {/* <Header /> */}
         <Body style={{ flex: 1, width: "100%" }}>
           <BackgroundAnimation />
-          <div style={{ maxWidth: 400 }}>
-            <H3>Hello! I’m Brent.</H3>
+          <Intro o={o}>
+            <H3>
+              <span>Hello! I’m Brent.</span>
+            </H3>
             <P>
-              I'm a{" "}
-              <L color={"#f5c156"} onChange={this.onChange}>
-                multidisciplinary developer
-              </L>{" "}
-              from Charlottesville, Virginia where I do{" "}
-              <L color={"#e6616b"} onChange={this.onChange}>
-                product design
-              </L>{" "}
-              and{" "}
-              <L color={"#5cd3ad"} onChange={this.onChange}>
-                machine learning
-              </L>{" "}
-              at{" "}
-              <L color={"#70bfff"} onChange={this.onChange}>
-                TwinThread
-              </L>, an IIoT analytics business.
+              <F>I'm a </F>
+              {this.L(this.yellow, "multi-disciplinary developer")}{" "}
+              <F>from Charlottesville, Virginia where I do </F>
+              {this.L(this.red, "product design")} <F o={o}>and </F>
+              {this.L(this.green, "machine learning")} <F o={o}>at </F>
+              {this.L(this.blue, "TwinThread")}
+              <F>, an IIoT analytics business.</F>
             </P>
             <P>
-              I work with startups to develop and implement digital strategy.
+              <F>
+                I work with startups to develop and implement digital strategy.
+              </F>
             </P>
-          </div>
+          </Intro>
         </Body>
-        <Outline color={this.state.color} />
+        <Outline color={this.state.selected || this.state.color} />
       </Flex>
     );
   }

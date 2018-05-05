@@ -15,7 +15,6 @@ export const start = () => {
     x: box.width * 0.5,
     y: box.height * 0.8
   };
-  console.log(light);
 
   var colors = ["#f5c156", "#e6616b", "#5cd3ad"];
 
