@@ -2,8 +2,8 @@ import React from "react";
 
 function resize(c) {
   var box = c.getBoundingClientRect();
-  c.width = box.width * 2 * 0.9;
-  c.height = box.height * 2 * 0.9;
+  c.width = box.width * 2;
+  c.height = box.height * 2;
 }
 
 export const start = () => {
