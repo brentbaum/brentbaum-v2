@@ -25,7 +25,9 @@ const Content = styled.div`
 const Nav = () => <div />;
 
 export const Header = () => (
-  <Pad v={3}>
+  <div
+    style={{ position: "absolute", top: "3rem", right: "3rem", left: "3rem" }}
+  >
     <Flex justify="center">
       <Content>
         <div
@@ -42,5 +44,5 @@ export const Header = () => (
         <Nav />
       </Content>
     </Flex>
-  </Pad>
+  </div>
 );

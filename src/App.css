@@ -43,7 +43,8 @@ body,
   }
 }
 
-#canvas {
+#box-canvas,
+#transition-canvas {
   background-color: #edf2f7;
   z-index: 0;
   width: 100%;

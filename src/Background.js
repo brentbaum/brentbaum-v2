@@ -1,19 +1,21 @@
 import React from "react";
-/* Adapted from https://codepen.io/anon/pen/jxmdKE */
+
+function resize(c) {
+  var box = c.getBoundingClientRect();
+  c.width = box.width * 2 * 0.9;
+  c.height = box.height * 2 * 0.9;
+}
+
 export const start = () => {
-  var c = document.getElementById("canvas");
+  var c = document.getElementById("box-canvas");
   var ctx = c.getContext("2d");
 
-  function resize() {
-    var box = c.getBoundingClientRect();
-    c.width = box.width;
-    c.height = box.height;
-  }
-
+  var box = c.getBoundingClientRect();
   var light = {
-    x: 160,
-    y: 200
+    x: box.width * 0.5,
+    y: box.height * 0.8
   };
+  console.log(light);
 
   var colors = ["#f5c156", "#e6616b", "#5cd3ad"];
 
@@ -34,8 +36,18 @@ export const start = () => {
     ctx.fill();
   }
 
-  function Box(index) {
-    this.half_size = Math.floor(Math.random() * 40 + 10);
+  function otherClose(x, y, others) {
+    const distances = others.map(
+      box =>
+        Math.pow((box.x - x) / c.width, 2) + Math.pow((box.y - y) / c.height, 2)
+    );
+    return distances.some(d => d < 0.01);
+    return false;
+  }
+
+  function Box(others) {
+    this.scale = 0.00001;
+    this.half_size = Math.floor(Math.random() * c.height / 20 + 20);
     this.x = -1;
     this.y = -1;
     while (
@@ -43,33 +55,38 @@ export const start = () => {
       this.y < 0 ||
       (this.x < 0.5 * c.width &&
         this.y < 0.7 * c.height &&
-        this.y > 0.3 * c.height)
+        this.y > 0.25 * c.height) ||
+      otherClose(this.x, this.y, others)
     ) {
-      this.x = Math.floor(Math.random() * c.width + 1);
-      this.y = Math.floor(Math.random() * c.height + 1);
+      this.x = Math.floor(Math.random() * c.width * 0.9 + 0.05 * c.width);
+      this.y = Math.floor(Math.random() * c.height * 0.9 + 0.05 * c.height);
     }
-    this.r = (1 + Math.random()) * Math.PI;
+    this.r = (2 + Math.random()) * Math.PI;
     this.shadow_length = 2000;
     this.color = colors[index % colors.length];
 
     this.getDots = function() {
+      if (this.scale < 1) {
+        this.scale *= 1.3;
+      }
       var full = Math.PI * 2 / 4;
+      var half_size = this.half_size * this.scale;
 
       var p1 = {
-        x: this.x + this.half_size * Math.sin(this.r),
-        y: this.y + this.half_size * Math.cos(this.r)
+        x: this.x + half_size * Math.sin(this.r),
+        y: this.y + half_size * Math.cos(this.r)
       };
       var p2 = {
-        x: this.x + this.half_size * Math.sin(this.r + full),
-        y: this.y + this.half_size * Math.cos(this.r + full)
+        x: this.x + half_size * Math.sin(this.r + full),
+        y: this.y + half_size * Math.cos(this.r + full)
       };
       var p3 = {
-        x: this.x + this.half_size * Math.sin(this.r + full * 2),
-        y: this.y + this.half_size * Math.cos(this.r + full * 2)
+        x: this.x + half_size * Math.sin(this.r + full * 2),
+        y: this.y + half_size * Math.cos(this.r + full * 2)
       };
       var p4 = {
-        x: this.x + this.half_size * Math.sin(this.r + full * 3),
-        y: this.y + this.half_size * Math.cos(this.r + full * 3)
+        x: this.x + half_size * Math.sin(this.r + full * 3),
+        y: this.y + half_size * Math.cos(this.r + full * 3)
       };
 
       return {
@@ -146,50 +163,37 @@ export const start = () => {
       boxes[i].drawShadow();
     }
     for (var i = 0; i < boxes.length; i++) {
-      collisionDetection(i);
       boxes[i].draw();
     }
     requestAnimationFrame(draw);
   }
 
-  resize();
+  resize(c);
   draw();
 
   let index = 0;
   while (boxes.length < 14) {
-    boxes.push(new Box(index));
+    boxes.push(new Box(boxes));
     index++;
   }
 
-  window.onresize = resize;
+  window.onresize = () => resize(c);
   c.onmousemove = function(e) {
-    light.x = e.offsetX == undefined ? e.layerX : e.offsetX;
-    light.y = e.offsetY == undefined ? e.layerY : e.offsetY;
+    light.x = (e.offsetX == undefined ? e.layerX : e.offsetX) * 2;
+    light.y = (e.offsetY == undefined ? e.layerY : e.offsetY) * 2;
   };
-
-  function collisionDetection(b) {
-    for (var i = boxes.length - 1; i >= 0; i--) {
-      if (i != b) {
-        var dx =
-          boxes[b].x + boxes[b].half_size - (boxes[i].x + boxes[i].half_size);
-        var dy =
-          boxes[b].y + boxes[b].half_size - (boxes[i].y + boxes[i].half_size);
-        var d = Math.sqrt(dx * dx + dy * dy);
-        if (d < boxes[b].half_size + boxes[i].half_size) {
-          boxes[b].half_size =
-            boxes[b].half_size > 1 ? (boxes[b].half_size -= 1) : 1;
-          boxes[i].half_size =
-            boxes[i].half_size > 1 ? (boxes[i].half_size -= 1) : 1;
-        }
-      }
-    }
-  }
+  return boxes;
 };
+
 export class BackgroundAnimation extends React.Component {
   componentDidMount() {
-    start();
+    this.boxes = start();
   }
+  componentWillUpdate() {
+    return false;
+  }
+  componentWillReceiveProps(nextProps) {}
   render() {
-    return <canvas id="canvas" />;
+    return [<canvas id="box-canvas" key="boxes" />];
   }
 }

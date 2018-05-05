@@ -13,7 +13,8 @@ const Outline = styled.div`
   right: 0;
   bottom: 0;
   left: 0;
-  border: 1.5rem solid white;
+  border: 1.5rem solid ${props => props.color};
+  transition: border-color 200ms;
 
   display: flex;
   flex-direction: column;
@@ -47,31 +48,32 @@ const P = styled.p`
   margin-top: 0;
   position: relative;
   cursor: default;
-  strong {
-    font-weight: 400;
-    color: rgba(244, 250, 255, 0.95);
-    position: relative;
-    white-space: nowrap;
-    &:after {
-      content: " ";
-      height: 3px;
-      width: 100%;
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: -4px;
-      background-color: rgba(255, 255, 255, 0.7);
-      transition: bottom 500ms, height 500ms, background-color 500ms;
-    }
-    &:hover {
-      cursor: default;
-      color: rgba(255, 255, 255, 0.95);
-    }
-    &:hover:after {
-      background-color: rgba(255, 255, 255, 0.95);
-      height: 4px;
-      bottom: -4px;
-    }
+`;
+
+const S = styled.strong`
+  font-weight: 500;
+  color: rgba(244, 250, 255, 0.95);
+  position: relative;
+  white-space: nowrap;
+  &:after {
+    content: " ";
+    height: 3px;
+    width: 100%;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -4px;
+    background-color: rgba(255, 255, 255, 0.7);
+    transition: bottom 300ms, height 300ms;
+  }
+  &:hover {
+    cursor: default;
+    color: ${props => props.color};
+  }
+  &:hover:after {
+    background-color: ${props => props.color};
+    height: 4px;
+    bottom: -4px;
   }
 `;
 
@@ -81,7 +83,18 @@ const Flex = styled.div`
   justify-content: center;
 `;
 
+const L = ({ onChange, color, children }) => (
+  <span
+    onMouseLeave={() => onChange({ color: "white" })}
+    onMouseEnter={() => onChange({ color })}
+  >
+    <S color={color}>{children}</S>
+  </span>
+);
+
 class App extends Component {
+  state = { color: "white" };
+  onChange = change => this.setState(change);
   render() {
     return (
       <Flex
@@ -99,19 +112,29 @@ class App extends Component {
           <div style={{ maxWidth: 400 }}>
             <H3>Hello! I’m Brent.</H3>
             <P>
-              I'm a <strong>multidisciplinary developer</strong> from
-              Charlottesville, Virginia where I do{" "}
-              <strong>product design</strong> and{" "}
-              <strong>machine learning</strong> at <strong>TwinThread</strong>,
-              an IIoT analytics business.
+              I'm a{" "}
+              <L color={"#f5c156"} onChange={this.onChange}>
+                multidisciplinary developer
+              </L>{" "}
+              from Charlottesville, Virginia where I do{" "}
+              <L color={"#e6616b"} onChange={this.onChange}>
+                product design
+              </L>{" "}
+              and{" "}
+              <L color={"#5cd3ad"} onChange={this.onChange}>
+                machine learning
+              </L>{" "}
+              at{" "}
+              <L color={"#70bfff"} onChange={this.onChange}>
+                TwinThread
+              </L>, an IIoT analytics business.
             </P>
             <P>
-              I am available to work with startups to develop and implement
-              digital strategy.
+              I work with startups to develop and implement digital strategy.
             </P>
           </div>
         </Body>
-        <Outline />
+        <Outline color={this.state.color} />
       </Flex>
     );
   }
