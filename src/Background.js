@@ -1,9 +1,10 @@
 import React from "react";
 
-function resize(c) {
+function resize(deltaX = 0, deltaY = 0) {
+  var c = document.getElementById("box-canvas");
   var box = c.getBoundingClientRect();
-  c.width = box.width * 2;
-  c.height = box.height * 2;
+  c.width = box.width + deltaX;
+  c.height = box.height + deltaY;
 }
 
 export const start = () => {
@@ -16,7 +17,7 @@ export const start = () => {
     y: box.height * 0.8
   };
 
-  var colors = ["#f5c156", "#e6616b", "#5cd3ad"];
+  var colors = ["#f5c156", "#e6616b", "#5cd3ad", "#70bfff"];
 
   function drawLight() {
     ctx.beginPath();
@@ -27,7 +28,7 @@ export const start = () => {
       0,
       light.x,
       light.y,
-      1000
+      750
     );
     gradient.addColorStop(0, "#3b4654");
     gradient.addColorStop(1, "#2c343f");
@@ -49,6 +50,7 @@ export const start = () => {
     this.half_size = Math.floor(Math.random() * c.height / 20 + 20);
     this.x = -1;
     this.y = -1;
+    this.target = 0;
     while (
       this.x < 0 ||
       this.y < 0 ||
@@ -70,22 +72,24 @@ export const start = () => {
       }
       var full = Math.PI * 2 / 4;
       var half_size = this.half_size * this.scale;
+      var x = this.x;
+      var y = this.y - document.getElementById("main").scrollTop * 0.75;
 
       var p1 = {
-        x: this.x + half_size * Math.sin(this.r),
-        y: this.y + half_size * Math.cos(this.r)
+        x: x + half_size * Math.sin(this.r),
+        y: y + half_size * Math.cos(this.r)
       };
       var p2 = {
-        x: this.x + half_size * Math.sin(this.r + full),
-        y: this.y + half_size * Math.cos(this.r + full)
+        x: x + half_size * Math.sin(this.r + full),
+        y: y + half_size * Math.cos(this.r + full)
       };
       var p3 = {
-        x: this.x + half_size * Math.sin(this.r + full * 2),
-        y: this.y + half_size * Math.cos(this.r + full * 2)
+        x: x + half_size * Math.sin(this.r + full * 2),
+        y: y + half_size * Math.cos(this.r + full * 2)
       };
       var p4 = {
-        x: this.x + half_size * Math.sin(this.r + full * 3),
-        y: this.y + half_size * Math.cos(this.r + full * 3)
+        x: x + half_size * Math.sin(this.r + full * 3),
+        y: y + half_size * Math.cos(this.r + full * 3)
       };
 
       return {
@@ -116,6 +120,13 @@ export const start = () => {
       }
       if (this.x - this.half_size > c.width) {
         this.x -= c.width + 100;
+      }
+    };
+    this.checkTarget = function() {
+      if (this.target > 1 || this.target < -1) {
+        let d = this.target / 80;
+        this.target += -d;
+        this.y += d;
       }
     };
     this.drawShadow = function() {
@@ -162,36 +173,48 @@ export const start = () => {
       boxes[i].drawShadow();
     }
     for (var i = 0; i < boxes.length; i++) {
+      boxes[i].checkTarget();
       boxes[i].draw();
     }
     requestAnimationFrame(draw);
   }
 
-  resize(c);
+  resize();
   draw();
 
   let index = 0;
-  while (boxes.length < 14) {
+  while (boxes.length < 16) {
     boxes.push(new Box(boxes));
     index++;
   }
 
-  window.onresize = () => resize(c);
+  window.onresize = () => resize();
   c.onmousemove = function(e) {
-    light.x = (e.offsetX == undefined ? e.layerX : e.offsetX) * 2;
-    light.y = (e.offsetY == undefined ? e.layerY : e.offsetY) * 2;
+    light.x = e.offsetX == undefined ? e.layerX : e.offsetX;
+    light.y = e.offsetY == undefined ? e.layerY : e.offsetY;
   };
-  return boxes;
+  return { boxes, resize, draw };
 };
 
 export class BackgroundAnimation extends React.Component {
   componentDidMount() {
-    this.boxes = start();
+    const { boxes, resize, draw } = start();
+    this.resize = resize;
+    this.draw = draw;
+    this.boxes = boxes;
   }
   componentWillUpdate() {
     return false;
   }
-  componentWillReceiveProps(nextProps) {}
+  componentWillReceiveProps(nextProps) {
+    if (this.props.selected !== nextProps.selected && !!nextProps.selected) {
+      this.boxes.forEach(box => {
+        box.target = -350 + Math.floor(Math.random() * 100);
+      });
+      this.resize();
+      this.draw();
+    }
+  }
   render() {
     return [<canvas id="box-canvas" key="boxes" />];
   }

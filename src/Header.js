@@ -22,26 +22,42 @@ const Content = styled.div`
   z-index: 1;
 `;
 
-const Nav = () => <div />;
+const Nav = Flex.extend`
+  justify-content: flex-start;
+`;
+
+const NavItem = styled.div`
+  font-size: 1.2rem;
+  color: white;
+  padding-right: 2rem;
+
+  @media (max-width: 700px) {
+    padding-right: 1rem;
+    font-size: 1.1rem;
+  }
+  @media (max-width: 500px) {
+    padding-right: 0.5rem;
+    font-size: 1rem;
+  }
+`;
 
 export const Header = () => (
   <div
-    style={{ position: "absolute", top: "3rem", right: "3rem", left: "3rem" }}
+    style={{
+      position: "absolute",
+      top: "3rem",
+      right: "3rem",
+      left: "10vw",
+      zIndex: 5
+    }}
   >
     <Flex justify="center">
       <Content>
-        <div
-          style={{
-            color: "rgba(23, 63, 103, .85)",
-            fontSize: "1.2rem",
-            letterSpacing: 2,
-            cursor: "default"
-          }}
-        >
-          <b>BRENT</b>
-          <span style={{ paddingLeft: 3 }}>BAUM</span>
-        </div>
-        <Nav />
+        <Nav>
+          <NavItem>Development</NavItem>
+          <NavItem>Product Design</NavItem>
+          <NavItem>Research</NavItem>
+        </Nav>
       </Content>
     </Flex>
   </div>

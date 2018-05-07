@@ -1,5 +1,23 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: sans-serif;
+  font-family: Circular;
+}
+
+@font-face {
+  font-family: Circular;
+  font-weight: 400;
+  src: url("fonts/circular-medium.woff") format("opentype");
+}
+
+@font-face {
+  font-family: Circular;
+  font-weight: bold;
+  src: url("fonts/circular-bold.woff") format("opentype");
+}
+
+@font-face {
+  font-family: Circular;
+  font-weight: 300;
+  src: url("fonts/circular-book.woff") format("opentype");
 }

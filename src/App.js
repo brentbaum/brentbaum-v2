@@ -1,14 +1,42 @@
 import React, { Component } from "react";
+import ReactTimeout from "react-timeout";
 import { BackgroundAnimation } from "./Background";
 import logo from "./logo.svg";
 import styled from "styled-components";
 import "./App.css";
 import { Header } from "./Header";
 
+const Main = styled.div`
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  &:after {
+    content: "▼ Scroll ▼";
+    position: opacity: ${props => props.o};
+    bottom: 2.5rem;
+    z-index: 1;
+    left: 0;
+    right: 0;
+    width: 8em;
+    text-align: center;
+    margin: 0 auto;
+    font-size: 0.75em;
+    text-transform: uppercase;
+    letter-spacing: 0px;
+    text-indent: 2px;
+    color: white;
+    font-weight: bold;
+  }
+`;
+
 const Outline = styled.div`
   position: fixed;
-  z-index: -1;
-  pointer-events: none;
+  z-index: 0;
   top: 0;
   right: 0;
   bottom: 0;
@@ -23,11 +51,11 @@ const Outline = styled.div`
 const Body = styled.div`
   z-index: 1;
   font-size: 1.4rem;
+  pointer-events: none;
   line-height: 1.6;
   color: rgba(244, 250, 255, 0.95);
-  padding: 25vh 5rem;
+  padding: 25vh 10vw;
   max-width: 72rem;
-  margin: 0 auto;
   @media (max-width: 700px) {
     padding: 15vh 1.5rem;
     font-size: 1.3rem;
@@ -51,10 +79,11 @@ const P = styled.p`
 `;
 
 const S = styled.strong`
-  font-weight: 500;
+  font-weight: bold;
   color: rgba(244, 250, 255, 0.95);
   position: relative;
   white-space: nowrap;
+  transition: color 300ms;
   &:after {
     content: " ";
     height: 3px;
@@ -64,7 +93,7 @@ const S = styled.strong`
     right: 0;
     bottom: -4px;
     background-color: rgba(255, 255, 255, 0.7);
-    transition: bottom 300ms, height 300ms;
+    transition: background-color 300ms, bottom 300ms, height 300ms;
   }
   &:hover,
   &.selected {
@@ -89,6 +118,7 @@ const Intro = styled.div`
   max-width: 400px;
   span {
     opacity: ${props => props.o};
+    display: ${props => props.d};
   }
 `;
 
@@ -96,17 +126,38 @@ const F = styled.span`
   transition: opacity 300ms;
 `;
 
-const L = ({ onChange, color, children, selected, onSelect, position }) => (
+const Section = Flex.extend`
+  justify-content: center;
+  align-items: center;
+  margin-top: 100vh;
+  height: 100vh;
+  width: 100vw;
+  color: white;
+  font-size: 1.4rem;
+`;
+
+const L = ({
+  onChange,
+  color,
+  children,
+  selected,
+  onSelect,
+  position,
+  d,
+  o
+}) => (
   <React.Fragment>
     <F
       onMouseLeave={() => onChange({ color: "white" })}
       onMouseEnter={() => onChange({ color })}
       onClick={e => {
-        onChange({ o: 0, selected: color });
-        onSelect(e);
+        //onChange({ o: 0, selected: color });
+        //onSelect(e);
       }}
       style={{
-        opacity: !selected ? 1 : 0
+        display: d,
+        opacity: o,
+        pointerEvents: "auto"
       }}
     >
       <S color={color}>{children}</S>
@@ -114,11 +165,12 @@ const L = ({ onChange, color, children, selected, onSelect, position }) => (
     {selected === color && (
       <F
         style={{
-          color: console.log(color) || "white",
+          color: "white",
           opacity: 1,
           position: "fixed",
           top: position.y - 5,
-          left: position.x
+          left: position.x,
+          transition: "top 800ms, left 800ms"
         }}
       >
         <S color={color} className={selected === color ? "selected" : ""}>
@@ -130,7 +182,7 @@ const L = ({ onChange, color, children, selected, onSelect, position }) => (
 );
 
 class App extends Component {
-  state = { color: "white", o: 1, selected: null };
+  state = { color: "white", o: 0.95, selected: null };
   yellow = "#f5c156";
   red = "#e6616b";
   green = "#5cd3ad";
@@ -138,16 +190,28 @@ class App extends Component {
 
   onChange = change => this.setState(change);
   L = (color, text) => {
+    const { setTimeout } = this.props;
+    const { d, o } = this.state;
     const component = (
       <L
+        d={d}
+        o={o}
         color={color}
         onChange={this.onChange}
         selected={this.state.selected}
         onSelect={e => {
-          console.log(e.target.get);
           this.setState({
             position: e.target.getBoundingClientRect()
           });
+          setTimeout(() => {
+            this.setState({
+              position: {
+                x: window.innerWidth * 0.1,
+                y: 120
+              },
+              d: "none"
+            });
+          }, 300);
         }}
         position={this.state.position}
       >
@@ -157,44 +221,56 @@ class App extends Component {
     return component;
   };
   render() {
-    const o = this.state.o;
+    const { d, o } = this.state;
     return (
-      <Flex
-        style={{
-          position: "absolute",
-          top: "1.5rem",
-          right: "1.5rem",
-          bottom: "1.5rem",
-          left: "1.5rem"
-        }}
-      >
-        {/* <Header /> */}
-        <Body style={{ flex: 1, width: "100%" }}>
-          <BackgroundAnimation />
-          <Intro o={o}>
-            <H3>
-              <span>Hello! I’m Brent.</span>
-            </H3>
-            <P>
-              <F>I'm a </F>
-              {this.L(this.yellow, "multi-disciplinary developer")}{" "}
-              <F>from Charlottesville, Virginia where I do </F>
-              {this.L(this.red, "product design")} <F o={o}>and </F>
-              {this.L(this.green, "machine learning")} <F o={o}>at </F>
-              {this.L(this.blue, "TwinThread")}
-              <F>, an IIoT analytics business.</F>
-            </P>
-            <P>
-              <F>
-                I work with startups to develop and implement digital strategy.
-              </F>
-            </P>
-          </Intro>
-        </Body>
-        <Outline color={this.state.selected || this.state.color} />
-      </Flex>
+      <Main id="main">
+        <Flex
+          style={{
+            position: "absolute",
+            top: "1.5rem",
+            right: "1.5rem",
+            bottom: "1.5rem",
+            left: "1.5rem"
+          }}
+        >
+          <Body style={{ flex: 1, width: "100%" }}>
+            <Intro o={o}>
+              <H3>
+                <span>Hello! I’m Brent.</span>
+              </H3>
+              <P>
+                <F d={d}>I'm a </F>
+                {this.L(this.yellow, "developer")}{" "}
+                <F>from Charlottesville, Virginia where I do </F>
+                {this.L(this.red, "product design")}{" "}
+                <F o={o} d={d}>
+                  and{" "}
+                </F>
+                {this.L(this.green, "research")}{" "}
+                <F o={o} d={d}>
+                  at{" "}
+                </F>
+                {this.L(this.blue, "TwinThread")}
+                <F>, an IIoT analytics business.</F>
+              </P>
+              <P>
+                <F>
+                  I work with startups to develop and implement digital
+                  strategy.
+                </F>
+              </P>
+            </Intro>
+          </Body>
+          <Outline color={this.state.selected || this.state.color || "#f1f1f2"}>
+            <BackgroundAnimation selected={this.state.selected} />
+          </Outline>
+        </Flex>
+        <Section>
+          <span style={{ zIndex: 20 }}>Contact me at brent@brentbaum.com</span>
+        </Section>
+      </Main>
     );
   }
 }
 
-export default App;
+export default ReactTimeout(App);
