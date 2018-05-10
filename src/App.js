@@ -54,8 +54,9 @@ const Body = styled.div`
   pointer-events: none;
   line-height: 1.6;
   color: rgba(244, 250, 255, 0.95);
-  padding: 25vh 10vw;
+  padding: 25vh 5%;
   max-width: 72rem;
+  margin: 0 auto;
   @media (max-width: 700px) {
     padding: 15vh 1.5rem;
     font-size: 1.3rem;
@@ -76,10 +77,11 @@ const P = styled.p`
   margin-top: 0;
   position: relative;
   cursor: default;
+  font-weight: 300;
 `;
 
 const S = styled.strong`
-  font-weight: bold;
+  font-weight: 400;
   color: rgba(244, 250, 255, 0.95);
   position: relative;
   white-space: nowrap;
@@ -129,12 +131,70 @@ const F = styled.span`
 const Section = Flex.extend`
   justify-content: center;
   align-items: center;
-  margin-top: 100vh;
-  height: 100vh;
+  height: ${props => (props.height ? props.height + "vh" : "100vh")};
+  margin-top: ${props => (props.marginTop ? props.marginTop + "vh" : "0")};
   width: 100vw;
   color: white;
   font-size: 1.4rem;
 `;
+
+const Card = styled.a`
+  display: block;
+  text-decoration: none;
+  cursor: pointer;
+  background: white;
+  border-radius: 0px;
+  padding: 2rem 2rem 2.5rem;
+  transition: transform 300ms;
+  &:hover {
+    transform: scale(1.03);
+  }
+`;
+const CardTitle = styled.div`
+  color: #2c343f;
+  margin-bottom: 0.5rem;
+  font-size: 1.2rem;
+  font-weight: bold;
+`;
+const CardBody = styled.div`
+  color: #2c343f;
+  font-size: 1.2rem;
+  font-weight: 300;
+`;
+
+const CardRow = styled.div`
+  display: flex;
+  z-index: 5;
+  width: 100%;
+  max-width: 64rem;
+  margin-bottom: 1rem;
+  align-items: stretch;
+  @media (max-width: 700px) {
+    flex-direction: column;
+  }
+`;
+
+const ProjectCard = ({ title, body, img = null, href = "" }) => (
+  <Card href={href}>
+    <CardTitle>{title}</CardTitle>
+    <CardBody>{body}</CardBody>
+    {img && <img src={img} />}
+  </Card>
+);
+
+const ProjectRow = ({ cards }) => (
+  <CardRow>
+    {cards.map(card => (
+      <React.Fragment>
+        <span style={{ flex: 1 }} key={"spacer" + card.title} />
+        <span style={{ flex: 20 }} key={"card" + card.title}>
+          {card}
+        </span>
+      </React.Fragment>
+    ))}
+    <span style={{ flex: 1 }} />
+  </CardRow>
+);
 
 const L = ({
   onChange,
@@ -255,7 +315,7 @@ class App extends Component {
               </P>
               <P>
                 <F>
-                  I work with startups to develop and implement digital
+                  I work with startups to develop and implement technology
                   strategy.
                 </F>
               </P>
@@ -265,6 +325,52 @@ class App extends Component {
             <BackgroundAnimation selected={this.state.selected} />
           </Outline>
         </Flex>
+        <Section />
+        <Section height={50} marginTop={30}>
+          <H3
+            style={{ width: "100%", maxWidth: "61rem", marginBottom: "2rem" }}
+          >
+            Recent work
+          </H3>
+          <ProjectRow
+            cards={[
+              <ProjectCard
+                title={"TwinThread Web Application"}
+                body={
+                  "Create a data-dense interface to display million row + data and drive the user to insights."
+                }
+                href={"https://app.twinthread.com"}
+              />,
+              <ProjectCard
+                title={"Launch Coding Bootcamp"}
+                body={
+                  "Teach 20 students to code in 6 weeks. The results? Nothing short of spectacular."
+                }
+                href={
+                  "https://hackcville.com/launch-track/software-engineering/"
+                }
+              />
+            ]}
+          />
+          <ProjectRow
+            cards={[
+              <ProjectCard
+                title={"Contraline.com"}
+                body={
+                  "Presenting the future of contraception with a corporate, scientific brand."
+                }
+                href={"http://www.contraline.com"}
+              />,
+              <ProjectCard
+                title={"Roots Operational Management"}
+                body={
+                  "Preparing a promising business for growth through data collection and optimization."
+                }
+                href={"https://rootsnk.com"}
+              />
+            ]}
+          />
+        </Section>
         <Section>
           <span style={{ zIndex: 20 }}>Contact me at brent@brentbaum.com</span>
         </Section>
