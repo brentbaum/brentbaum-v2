@@ -17,7 +17,8 @@ const Main = styled.div`
 
   &:after {
     content: "▼ Scroll ▼";
-    position: opacity: ${props => props.o};
+    position: fixed;
+    opacity: ${props => props.o};
     bottom: 2.5rem;
     z-index: 1;
     left: 0;
@@ -65,6 +66,16 @@ const Body = styled.div`
     padding: 15vh 1.5rem;
     font-size: 1.1rem;
   }
+`;
+const ScrollBlock = styled.div`
+  position: absolute;
+  content: " ";
+  background: #2c343f;
+  height: 3rem;
+  left: 1.5rem;
+  right: 1.5rem;
+  bottom: 1.5rem;
+  z-index: 2;
 `;
 
 const H3 = styled.h3`
@@ -249,6 +260,7 @@ class App extends Component {
   blue = "#70bfff";
 
   onChange = change => this.setState(change);
+
   L = (color, text) => {
     const { setTimeout } = this.props;
     const { d, o } = this.state;
@@ -283,7 +295,7 @@ class App extends Component {
   render() {
     const { d, o } = this.state;
     return (
-      <Main id="main">
+      <Main id="main" o={1}>
         <Flex
           style={{
             position: "absolute",
@@ -366,7 +378,7 @@ class App extends Component {
                 body={
                   "Preparing a promising business for growth through data collection and optimization."
                 }
-                href={"https://rootsnk.com"}
+                href={"http://www.rootsnaturalkitchen.com"}
               />
             ]}
           />
@@ -374,6 +386,7 @@ class App extends Component {
         <Section>
           <span style={{ zIndex: 20 }}>Contact me at brent@brentbaum.com</span>
         </Section>
+        {/* <ScrollBlock /> */}
       </Main>
     );
   }
