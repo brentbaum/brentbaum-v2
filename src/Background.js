@@ -41,26 +41,50 @@ export const start = () => {
       box =>
         Math.pow((box.x - x) / c.width, 2) + Math.pow((box.y - y) / c.height, 2)
     );
-    return distances.some(d => d < 0.01);
+    return distances.some(d => d < 0.03);
     return false;
   }
 
-  function Box(others) {
+  let iterations = 0;
+
+  function Box(others, index) {
     this.scale = 0.00001;
-    this.half_size = Math.floor(Math.random() * c.height / 20 + 20);
+    this.half_size = Math.floor(Math.random() * c.height / 20 + c.height / 40);
     this.x = -1;
     this.y = -1;
     this.target = 0;
-    while (
-      this.x < 0 ||
-      this.y < 0 ||
-      (this.x < 0.5 * c.width &&
-        this.y < 0.7 * c.height &&
-        this.y > 0.25 * c.height) ||
-      otherClose(this.x, this.y, others)
-    ) {
-      this.x = Math.floor(Math.random() * c.width * 0.9 + 0.05 * c.width);
-      this.y = Math.floor(Math.random() * c.height * 0.9 + 0.05 * c.height);
+    if (c.width < 500) {
+      while (
+        this.x < 0 ||
+        this.y < 0 ||
+        (this.x < 1.0 * c.width &&
+          this.y < 0.6 * c.height &&
+          this.y > 0.15 * c.height) ||
+        otherClose(this.x, this.y, others)
+      ) {
+        iterations++;
+        if (iterations > 10000) {
+          window.location = "/";
+        }
+        this.x = Math.floor(Math.random() * c.width * 0.85 + 0.075 * c.width);
+        this.y = Math.floor(Math.random() * c.height * 0.85 + 0.075 * c.height);
+      }
+    } else {
+      while (
+        this.x < 0 ||
+        this.y < 0 ||
+        (this.x < 0.5 * c.width &&
+          this.y < 0.7 * c.height &&
+          this.y > 0.25 * c.height) ||
+        otherClose(this.x, this.y, others)
+      ) {
+        iterations++;
+        if (iterations > 10000) {
+          window.location = "/";
+        }
+        this.x = Math.floor(Math.random() * c.width * 0.8 + 0.1 * c.width);
+        this.y = Math.floor(Math.random() * c.height * 0.9 + 0.05 * c.height);
+      }
     }
     this.r = (2 + Math.random()) * Math.PI;
     this.shadow_length = 2000;
@@ -182,9 +206,10 @@ export const start = () => {
   resize();
   draw();
 
+  let numBoxes = c.width < 500 ? 10 : 16;
   let index = 0;
-  while (boxes.length < 16) {
-    boxes.push(new Box(boxes));
+  while (boxes.length < numBoxes) {
+    boxes.push(new Box(boxes, index));
     index++;
   }
 

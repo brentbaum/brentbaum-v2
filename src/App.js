@@ -14,25 +14,6 @@ const Main = styled.div`
   top: 0;
   overflow-y: auto;
   overflow-x: hidden;
-
-  &:after {
-    content: "▼ Scroll ▼";
-    position: fixed;
-    opacity: ${props => props.o};
-    bottom: 2.5rem;
-    z-index: 1;
-    left: 0;
-    right: 0;
-    width: 8em;
-    text-align: center;
-    margin: 0 auto;
-    font-size: 0.75em;
-    text-transform: uppercase;
-    letter-spacing: 0px;
-    text-indent: 2px;
-    color: white;
-    font-weight: bold;
-  }
 `;
 
 const Outline = styled.div`
@@ -68,14 +49,22 @@ const Body = styled.div`
   }
 `;
 const ScrollBlock = styled.div`
-  position: absolute;
-  content: " ";
-  background: #2c343f;
-  height: 3rem;
-  left: 1.5rem;
-  right: 1.5rem;
-  bottom: 1.5rem;
-  z-index: 2;
+  position: fixed;
+  content: "▼ Scroll ▼";
+  opacity: ${props => props.o};
+  bottom: 2.5rem;
+  z-index: 1;
+  left: 0;
+  right: 0;
+  width: 8em;
+  text-align: center;
+  margin: 0 auto;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0px;
+  text-indent: 2px;
+  color: white;
+  font-weight: bold;
 `;
 
 const H3 = styled.h3`
@@ -143,10 +132,25 @@ const Section = Flex.extend`
   justify-content: center;
   align-items: center;
   height: ${props => (props.height ? props.height + "vh" : "100vh")};
+  min-height: ${props => (props.minHeight ? props.minHeight : "auto")};
   margin-top: ${props => (props.marginTop ? props.marginTop + "vh" : "0")};
   width: 100vw;
   color: white;
   font-size: 1.4rem;
+  @media (max-width: 700px) {
+    font-size: 1.2rem;
+  }
+`;
+
+const SectionInner = Flex.extend`
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  clip: rect(auto auto auto auto);
+  overflow: hidden;
 `;
 
 const Card = styled.a`
@@ -157,8 +161,16 @@ const Card = styled.a`
   border-radius: 0px;
   padding: 2rem 2rem 2.5rem;
   transition: transform 300ms;
+  flex: 1;
   &:hover {
-    transform: scale(1.03);
+    transform: scale(1.1);
+    box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.4);
+  }
+  margin-left: 1.5rem;
+  margin-bottom: 1rem;
+
+  @media (max-width: 700px) {
+    padding: 1.5rem 1.5rem 2rem;
   }
 `;
 const CardTitle = styled.div`
@@ -177,11 +189,11 @@ const CardRow = styled.div`
   display: flex;
   z-index: 5;
   width: 100%;
-  max-width: 64rem;
-  margin-bottom: 1rem;
+  max-width: 66rem;
   align-items: stretch;
   @media (max-width: 700px) {
     flex-direction: column;
+    padding: 0 3rem 0 1.5rem;
   }
 `;
 
@@ -193,19 +205,7 @@ const ProjectCard = ({ title, body, img = null, href = "" }) => (
   </Card>
 );
 
-const ProjectRow = ({ cards }) => (
-  <CardRow>
-    {cards.map(card => (
-      <React.Fragment>
-        <span style={{ flex: 1 }} key={"spacer" + card.title} />
-        <span style={{ flex: 20 }} key={"card" + card.title}>
-          {card}
-        </span>
-      </React.Fragment>
-    ))}
-    <span style={{ flex: 1 }} />
-  </CardRow>
-);
+const ProjectRow = ({ cards }) => <CardRow>{cards}</CardRow>;
 
 const L = ({
   onChange,
@@ -337,10 +337,18 @@ class App extends Component {
             <BackgroundAnimation selected={this.state.selected} />
           </Outline>
         </Flex>
-        <Section />
-        <Section height={50} marginTop={30}>
+        <Section>
+          <SectionInner>
+            <ScrollBlock>▼ Scroll ▼</ScrollBlock>
+          </SectionInner>
+        </Section>
+        <Section height={"auto"} minHeight="420px" marginTop={30}>
           <H3
-            style={{ width: "100%", maxWidth: "61rem", marginBottom: "2rem" }}
+            style={{
+              width: "100%",
+              maxWidth: "68.5rem",
+              padding: "1.5rem 3rem"
+            }}
           >
             Recent work
           </H3>
@@ -349,14 +357,14 @@ class App extends Component {
               <ProjectCard
                 title={"TwinThread Web Application"}
                 body={
-                  "Create a data-dense interface to display million row + data and drive the user to insights."
+                  "Create a data-dense interface to drive insights through machine learning in the Industrial IoT."
                 }
                 href={"https://app.twinthread.com"}
               />,
               <ProjectCard
                 title={"Launch Coding Bootcamp"}
                 body={
-                  "Teach 20 students to code in 6 weeks. The results? Nothing short of spectacular."
+                  "Teach 20 students to code in 6 weeks. The results? 17 job placements after graduation."
                 }
                 href={
                   "https://hackcville.com/launch-track/software-engineering/"
@@ -386,7 +394,6 @@ class App extends Component {
         <Section>
           <span style={{ zIndex: 20 }}>Contact me at brent@brentbaum.com</span>
         </Section>
-        {/* <ScrollBlock /> */}
       </Main>
     );
   }
