@@ -56,7 +56,8 @@ const ScrollBlock = styled.div`
   z-index: 1;
   left: 0;
   right: 0;
-  width: 8em;
+  width: 20rem;
+  pointer-events: none;
   text-align: center;
   margin: 0 auto;
   font-size: 0.75rem;
@@ -129,8 +130,10 @@ const F = styled.span`
 `;
 
 const Section = Flex.extend`
+  pointer-events: none;
   justify-content: center;
   align-items: center;
+  position: relative;
   height: ${props => (props.height ? props.height + "vh" : "100vh")};
   min-height: ${props => (props.minHeight ? props.minHeight : "auto")};
   margin-top: ${props => (props.marginTop ? props.marginTop + "vh" : "0")};
@@ -143,7 +146,6 @@ const Section = Flex.extend`
 `;
 
 const SectionInner = Flex.extend`
-  pointer-events: none;
   position: absolute;
   top: 0;
   left: 0;
@@ -160,11 +162,12 @@ const Card = styled.a`
   background: white;
   border-radius: 0px;
   padding: 2rem 2rem 2.5rem;
-  transition: transform 300ms;
+  transition: transform 300ms, box-shadow 300ms;
   flex: 1;
+  box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.4);
   &:hover {
-    transform: scale(1.1);
-    box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.4);
+    transform: scale(1.05);
+    box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.3);
   }
   margin-left: 1.5rem;
   margin-bottom: 1rem;
@@ -195,6 +198,17 @@ const CardRow = styled.div`
     flex-direction: column;
     padding: 0 3rem 0 1.5rem;
   }
+`;
+
+const ProjectBackground = styled.div`
+  position: absolute;
+  height: 30vh;
+  left: -25%;
+  right: -25%;
+  margin-top: 5vh;
+  z-index: 4;
+  transform: rotate(-10deg);
+  background: #f5c156;
 `;
 
 const ProjectCard = ({ title, body, img = null, href = "" }) => (
@@ -326,10 +340,7 @@ class App extends Component {
                 <F>, an IIoT analytics business.</F>
               </P>
               <P>
-                <F>
-                  I work with startups to develop and implement technology
-                  strategy.
-                </F>
+                <F>I create technologies that empower, not replace, humans.</F>
               </P>
             </Intro>
           </Body>
@@ -342,7 +353,13 @@ class App extends Component {
             <ScrollBlock>▼ Scroll ▼</ScrollBlock>
           </SectionInner>
         </Section>
-        <Section height={"auto"} minHeight="420px" marginTop={30}>
+        <Section
+          height={"60"}
+          minHeight="420px"
+          marginTop={40}
+          style={{ pointerEvents: "auto" }}
+        >
+          <ProjectBackground />
           <H3
             style={{
               width: "100%",
@@ -392,7 +409,9 @@ class App extends Component {
           />
         </Section>
         <Section>
-          <span style={{ zIndex: 20 }}>Contact me at brent@brentbaum.com</span>
+          <span style={{ zIndex: 20 }}>
+            Contact me at <S className="selected">brent@brentbaum.com</S>
+          </span>
         </Section>
       </Main>
     );
