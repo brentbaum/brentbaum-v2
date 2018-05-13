@@ -142,6 +142,7 @@ const Section = Flex.extend`
   font-size: 1.4rem;
   @media (max-width: 700px) {
     font-size: 1.2rem;
+    ${props => (props.mobileAutoHeight ? "height: auto" : "")};
   }
 `;
 
@@ -355,7 +356,7 @@ class App extends Component {
         </Section>
         <Section
           height={"60"}
-          minHeight="420px"
+          mobileAutoHeight
           marginTop={40}
           style={{ pointerEvents: "auto" }}
         >
