@@ -73,6 +73,12 @@ const H3 = styled.h3`
   position: relative;
 `;
 
+const H4 = styled.h3`
+  margin-bottom: 1rem;
+  position: relative;
+  font-size: 1.2rem;
+`;
+
 const P = styled.p`
   margin-bottom: 1rem;
   margin-top: 0;
@@ -221,6 +227,12 @@ const ProjectCard = ({ title, body, img = null, href = "" }) => (
 );
 
 const ProjectRow = ({ cards }) => <CardRow>{cards}</CardRow>;
+
+const TwinThread = styled.div`
+  position: relative;
+  max-width: 64rem;
+  width: 100%;
+`;
 
 const L = ({
   onChange,
@@ -400,16 +412,38 @@ class App extends Component {
                 href={"http://www.contraline.com"}
               />,
               <ProjectCard
-                title={"Roots Operational Management"}
+                title={"Helme budgeting"}
                 body={
-                  "Preparing a promising business for growth through data collection and optimization."
+                  "Making powerful financial projections accessible to private school heads."
                 }
-                href={"http://www.rootsnaturalkitchen.com"}
+                href={"http://helme.io"}
               />
             ]}
           />
         </Section>
-        <Section>
+        {/* <Section height={60} marginTop={40}>
+          <TwinThread style={{ color: "#2c343f" }}>
+            <img
+              style={{ width: "100%" }}
+              src="https://images.unsplash.com/photo-1473073899705-e7b1055a7419?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=8adff1298d2a8deff55c841c698d57b9&auto=format&fit=crop&w=1050&q=40"
+            />
+            <div
+              style={{
+                position: "absolute",
+                left: 0,
+                right: 0,
+                top: 0,
+                bottom: 0,
+                padding: "1rem 2rem"
+              }}
+            >
+              <H3>TwinThread</H3>
+              <H4>Software Engineer</H4>
+              <P>Ipsum lorem delorum borum</P>
+            </div>
+          </TwinThread>
+        </Section> */}
+        <Section height={70} marginTop={30}>
           <span style={{ zIndex: 20 }}>
             Contact me at <S className="selected">brent@brentbaum.com</S>
           </span>
