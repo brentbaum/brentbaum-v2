@@ -32,7 +32,7 @@ const rotate360 = keyframes`
   }
 
   to {
-    transform: rotate(-360deg);
+    transform: rotate(360deg);
   }
 `;
 
@@ -53,7 +53,7 @@ const TurbineHead = styled.div`
   width: 0px;
   height: 0px;
   position: relative;
-  animation: ${rotate360} 2s linear infinite;
+  animation: ${rotate360} 4s linear infinite;
   transform-origin: center center 0px;
   padding: 2rem 1rem;
   z-index: 1;

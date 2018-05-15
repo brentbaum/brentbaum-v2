@@ -336,7 +336,7 @@ class App extends Component {
     const { d, o } = this.state;
     return (
       <Main id="main" o={1}>
-        {/* <Flex
+        <Flex
           style={{
             position: "absolute",
             top: "1.5rem",
@@ -433,8 +433,8 @@ class App extends Component {
               />
             ]}
           />
-        </Section> */}
-        <Section height={60} marginTop={40}>
+        </Section>
+        <Section height={40} marginTop={30}>
           <TwinThread style={{ color: "#2c343f" }}>
             <SceneWrapper
               style={{
