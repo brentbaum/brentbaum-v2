@@ -21,3 +21,17 @@ body {
   font-weight: 300;
   src: url("fonts/circular-book.woff") format("opentype");
 }
+
+.blade {
+  background: #2c343f;
+}
+
+.blade-1 {
+  transform: rotate(0deg);
+}
+.blade-2 {
+  transform: rotate(60deg);
+}
+.blade-3 {
+  transform: rotate(120deg);
+}

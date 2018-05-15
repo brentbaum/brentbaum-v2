@@ -1,10 +1,11 @@
 import React, { Component } from "react";
+import { Scene } from "./Scene";
 import ReactTimeout from "react-timeout";
 import { BackgroundAnimation } from "./Background";
-import logo from "./logo.svg";
 import styled from "styled-components";
 import "./App.css";
 import { Header } from "./Header";
+import logo from "./tt-logo.svg";
 
 const Main = styled.div`
   position: fixed;
@@ -71,12 +72,14 @@ const ScrollBlock = styled.div`
 const H3 = styled.h3`
   margin-bottom: 1rem;
   position: relative;
+  font-size: 1.4rem;
 `;
 
 const H4 = styled.h3`
   margin-bottom: 1rem;
   position: relative;
-  font-size: 1.2rem;
+  font-size: 1.4rem;
+  font-weight: 300;
 `;
 
 const P = styled.p`
@@ -232,6 +235,16 @@ const TwinThread = styled.div`
   position: relative;
   max-width: 64rem;
   width: 100%;
+  height: 30vh;
+  padding: 1rem 2rem;
+`;
+
+const SceneWrapper = styled.div`
+  background: linear-gradient(to bottom, #f7fbff 0%, #dce4e8 45%, #dae1e8 100%);
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
 `;
 
 const L = ({
@@ -323,7 +336,7 @@ class App extends Component {
     const { d, o } = this.state;
     return (
       <Main id="main" o={1}>
-        <Flex
+        {/* <Flex
           style={{
             position: "absolute",
             top: "1.5rem",
@@ -420,30 +433,33 @@ class App extends Component {
               />
             ]}
           />
-        </Section>
-        {/* <Section height={60} marginTop={40}>
+        </Section> */}
+        <Section height={60} marginTop={40}>
           <TwinThread style={{ color: "#2c343f" }}>
-            <img
-              style={{ width: "100%" }}
-              src="https://images.unsplash.com/photo-1473073899705-e7b1055a7419?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=8adff1298d2a8deff55c841c698d57b9&auto=format&fit=crop&w=1050&q=40"
-            />
-            <div
+            <SceneWrapper
               style={{
                 position: "absolute",
-                left: 0,
-                right: 0,
-                top: 0,
-                bottom: 0,
                 padding: "1rem 2rem"
               }}
             >
-              <H3>TwinThread</H3>
-              <H4>Software Engineer</H4>
-              <P>Ipsum lorem delorum borum</P>
-            </div>
+              <Scene />
+            </SceneWrapper>
+            <H3 style={{ display: "flex", alignItems: "center" }}>
+              <img
+                src={logo}
+                style={{ height: "2rem", marginRight: ".5rem" }}
+              />
+              <span>TWIN</span>
+              <span style={{ opacity: 0.5 }}>THREAD</span>
+            </H3>
+            <H4>Software Engineer</H4>
+            <P style={{ maxWidth: "24rem", opacity: 0.9 }}>
+              Industrial Internet of Things business applying machine learning
+              to solve fleet-scale optimization.
+            </P>
           </TwinThread>
-        </Section> */}
-        <Section height={70} marginTop={30}>
+        </Section>
+        <Section height={100} marginTop={0}>
           <span style={{ zIndex: 20 }}>
             Contact me at <S className="selected">brent@brentbaum.com</S>
           </span>
