@@ -434,7 +434,14 @@ class App extends Component {
             ]}
           />
         </Section>
-        <Section height={40} marginTop={30}>
+        <Section height={40} marginTop={30} style={{ padding: "0 3rem" }}>
+          <H3
+            style={{
+              width: "100%",
+              maxWidth: "68.5rem",
+              padding: "1.5rem 3rem"
+            }}
+          />
           <TwinThread style={{ color: "#2c343f" }}>
             <SceneWrapper
               style={{
@@ -444,7 +451,13 @@ class App extends Component {
             >
               <Scene />
             </SceneWrapper>
-            <H3 style={{ display: "flex", alignItems: "center" }}>
+            <H3
+              style={{
+                display: "flex",
+                alignItems: "center",
+                letterSpacing: 1
+              }}
+            >
               <img
                 src={logo}
                 style={{ height: "2rem", marginRight: ".5rem" }}

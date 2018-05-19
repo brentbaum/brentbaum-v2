@@ -67,8 +67,44 @@ const TurbineAll = styled.div`
   transform-origin: bottom center;
 `;
 
+const Mountains = () => (
+  <div
+    style={{
+      position: "absolute",
+      right: 0,
+      bottom: 0,
+      top: 0,
+      width: 600,
+      overflow: "hidden"
+    }}
+  >
+    <div className="mountain mountain-one">
+      <div className="mountain-top">
+        <div className="mountain-cap-1" />
+        <div className="mountain-cap-2" />
+        <div className="mountain-cap-3" />
+      </div>
+    </div>
+    <div className="mountain-two">
+      <div className="mountain-top">
+        <div className="mountain-cap-1" />
+        <div className="mountain-cap-2" />
+        <div className="mountain-cap-3" />
+      </div>
+    </div>
+    <div className="mountain-three">
+      <div className="mountain-top">
+        <div className="mountain-cap-1" />
+        <div className="mountain-cap-2" />
+        <div className="mountain-cap-3" />
+      </div>
+    </div>
+    <div className="cloud" />
+  </div>
+);
+
 export const Turbine = ({ scale, position, speed }) => (
-  <TurbineAll style={{ ...position, transform: `scale(${scale})` }}>
+  <TurbineAll style={{ ...position, transform: `scale(${scale})`, zIndex: 3 }}>
     <TurbineBody>
       <TurbineHead speed={speed}>
         <Blade rotate={0}>
@@ -90,6 +126,7 @@ export const Turbine = ({ scale, position, speed }) => (
 
 export const Scene = () => (
   <div>
+    <Mountains />
     <Turbine position={{ right: "10%" }} scale="1.0" speed={4} />
     <Turbine position={{ right: "30%" }} scale="1.2" speed={5} />
     <Turbine position={{ right: "50%" }} scale=".9" speed={3.5} />
