@@ -395,7 +395,7 @@ class App extends Component {
             style={{
               width: "100%",
               maxWidth: "68.5rem",
-              padding: "1.5rem 3rem"
+              padding: "1rem 4.5rem"
             }}
           >
             Recent work
@@ -444,9 +444,11 @@ class App extends Component {
             style={{
               width: "100%",
               maxWidth: "68.5rem",
-              padding: "1.5rem 3rem"
+              padding: "1rem 4.5rem"
             }}
-          />
+          >
+            Current job
+          </H3>
           <TwinThread style={{ color: "#2c343f" }}>
             <SceneWrapper
               style={{
