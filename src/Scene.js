@@ -134,7 +134,7 @@ export const Scene = () => (
   <div>
     <Mountains />
     <Turbine position={10} scale="1.0" speed={4} />
-    <Turbine position={30} scale="1.2" speed={5} />
-    <Turbine position={50} scale=".9" speed={3.5} />
+    <Turbine position={25} scale="1.2" speed={5} />
+    <Turbine position={40} scale=".9" speed={3.5} />
   </div>
 );

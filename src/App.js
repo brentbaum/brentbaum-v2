@@ -447,7 +447,7 @@ class App extends Component {
               padding: "1rem 4.5rem"
             }}
           >
-            Current job
+            Working at...
           </H3>
           <TwinThread style={{ color: "#2c343f" }}>
             <SceneWrapper
