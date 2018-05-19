@@ -65,6 +65,12 @@ const TurbineAll = styled.div`
   bottom: 0;
   right: 10%;
   transform-origin: bottom center;
+  transform: scale(${props => props.scale});
+  right: ${props => props.position}%;
+
+  @media (max-width: 700px) {
+    right: ${props => props.position * 1.5}%;
+  }
 `;
 
 const Mountains = () => (
@@ -104,7 +110,7 @@ const Mountains = () => (
 );
 
 export const Turbine = ({ scale, position, speed }) => (
-  <TurbineAll style={{ ...position, transform: `scale(${scale})`, zIndex: 3 }}>
+  <TurbineAll scale={scale} position={position} style={{ zIndex: 3 }}>
     <TurbineBody>
       <TurbineHead speed={speed}>
         <Blade rotate={0}>
@@ -127,8 +133,8 @@ export const Turbine = ({ scale, position, speed }) => (
 export const Scene = () => (
   <div>
     <Mountains />
-    <Turbine position={{ right: "10%" }} scale="1.0" speed={4} />
-    <Turbine position={{ right: "30%" }} scale="1.2" speed={5} />
-    <Turbine position={{ right: "50%" }} scale=".9" speed={3.5} />
+    <Turbine position={10} scale="1.0" speed={4} />
+    <Turbine position={30} scale="1.2" speed={5} />
+    <Turbine position={50} scale=".9" speed={3.5} />
   </div>
 );

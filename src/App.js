@@ -237,6 +237,11 @@ const TwinThread = styled.div`
   width: 100%;
   height: 30vh;
   padding: 1rem 2rem;
+  overflow: hidden;
+  @media (max-width: 700px) {
+    height: auto;
+    padding-bottom: 30rem;
+  }
 `;
 
 const SceneWrapper = styled.div`
