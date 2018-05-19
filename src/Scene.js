@@ -53,7 +53,8 @@ const TurbineHead = styled.div`
   width: 0px;
   height: 0px;
   position: relative;
-  animation: ${rotate360} 4s linear infinite;
+  transition: animation 300ms;
+  animation: ${rotate360} ${props => props.speed}s linear infinite;
   transform-origin: center center 0px;
   padding: 2rem 1rem;
   z-index: 1;
@@ -66,10 +67,10 @@ const TurbineAll = styled.div`
   transform-origin: bottom center;
 `;
 
-export const Turbine = ({ scale, position }) => (
+export const Turbine = ({ scale, position, speed }) => (
   <TurbineAll style={{ ...position, transform: `scale(${scale})` }}>
     <TurbineBody>
-      <TurbineHead>
+      <TurbineHead speed={speed}>
         <Blade rotate={0}>
           <BladeTop edges="15px 5px 25px" />
         </Blade>
@@ -89,8 +90,8 @@ export const Turbine = ({ scale, position }) => (
 
 export const Scene = () => (
   <div>
-    <Turbine position={{ right: "10%" }} scale="1.0" />
-    <Turbine position={{ right: "30%" }} scale="1.2" />
-    <Turbine position={{ right: "50%" }} scale=".9" />
+    <Turbine position={{ right: "10%" }} scale="1.0" speed={4} />
+    <Turbine position={{ right: "30%" }} scale="1.2" speed={5} />
+    <Turbine position={{ right: "50%" }} scale=".9" speed={3.5} />
   </div>
 );
