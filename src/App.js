@@ -210,15 +210,18 @@ const CardRow = styled.div`
   }
 `;
 
+const Stripe = styled.div`
+  background: ${props => props.background};
+  height: 30vh;
+`;
+
 const ProjectBackground = styled.div`
   position: absolute;
-  height: 30vh;
   left: -25%;
   right: -25%;
   margin-top: 5vh;
   z-index: 4;
   transform: rotate(-10deg);
-  background: #f5c156;
 `;
 
 const ProjectCard = ({ title, body, img = null, href = "" }) => (
@@ -339,7 +342,10 @@ class App extends Component {
   };
   render() {
     const { d, o } = this.state;
-    return (
+    return [
+      <Outline color={this.state.selected || this.state.color || "#f1f1f2"}>
+        <BackgroundAnimation selected={this.state.selected} />
+      </Outline>,
       <Main id="main" o={1}>
         <Flex
           style={{
@@ -375,9 +381,6 @@ class App extends Component {
               </P>
             </Intro>
           </Body>
-          <Outline color={this.state.selected || this.state.color || "#f1f1f2"}>
-            <BackgroundAnimation selected={this.state.selected} />
-          </Outline>
         </Flex>
         <Section>
           <SectionInner>
@@ -390,7 +393,11 @@ class App extends Component {
           marginTop={40}
           style={{ pointerEvents: "auto" }}
         >
-          <ProjectBackground />
+          <ProjectBackground>
+            <Stripe background="#f5c156" />
+            {/* <Stripe background="#70bfff" />
+            <Stripe background="#e6616b" /> */}
+          </ProjectBackground>
           <H3
             style={{
               width: "100%",
@@ -398,7 +405,7 @@ class App extends Component {
               padding: "1rem 4.5rem"
             }}
           >
-            Recent work
+            I've made...
           </H3>
           <ProjectRow
             cards={[
@@ -485,7 +492,7 @@ class App extends Component {
           </span>
         </Section>
       </Main>
-    );
+    ];
   }
 }
 

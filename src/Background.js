@@ -49,7 +49,9 @@ export const start = () => {
 
   function Box(others, index) {
     this.scale = 0.00001;
-    this.half_size = Math.floor(Math.random() * c.height / 20 + c.height / 40);
+    this.half_size = Math.floor(
+      (Math.random() * c.height) / 20 + c.height / 40
+    );
     this.x = -1;
     this.y = -1;
     this.target = 0;
@@ -94,7 +96,7 @@ export const start = () => {
       if (this.scale < 1) {
         this.scale *= 1.3;
       }
-      var full = Math.PI * 2 / 4;
+      var full = (Math.PI * 2) / 4;
       var half_size = this.half_size * this.scale;
       var x = this.x;
       var y = this.y - document.getElementById("main").scrollTop * 0.75;
@@ -214,7 +216,7 @@ export const start = () => {
   }
 
   window.onresize = () => resize();
-  c.onmousemove = function(e) {
+  window.onmousemove = function(e) {
     light.x = e.offsetX == undefined ? e.layerX : e.offsetX;
     light.y = e.offsetY == undefined ? e.layerY : e.offsetY;
   };
