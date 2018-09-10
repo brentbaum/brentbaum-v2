@@ -220,8 +220,8 @@ export const start = () => {
 
   window.onresize = () => resize();
   window.onmousemove = function(e) {
-    light.x = e.screenX - 24; //e.offsetX == undefined ? e.layerX : e.offsetX;
-    light.y = e.screenY - 120; //e.offsetY == undefined ? e.layerY : e.offsetY;
+    light.x = e.screenX - 24;
+    light.y = e.screenY - 120;
   };
 
   return { boxes, resize, draw };
