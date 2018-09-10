@@ -131,8 +131,6 @@ export const start = () => {
     this.rotate = function() {
       const speed = (60 - this.half_size) / 20;
       this.rotation += speed * 0.002;
-      //this.x += speed;
-      //this.y += speed;
     };
     this.draw = function() {
       const corners = this.getCorners();
@@ -165,18 +163,13 @@ export const start = () => {
 
       for (let key in corners) {
         const corner = corners[key];
-        const angle = Math.atan2(light.y - corner.y, light.x - corner.x);
-        const endX =
-          corner.x + this.shadow_length * Math.sin(-angle - Math.PI / 2);
-        const endY =
-          corner.y + this.shadow_length * Math.cos(-angle - Math.PI / 2);
+        const angle = Math.atan2(light.y - corner.y, light.x - corner.x),
+          endX = corner.x + this.shadow_length * Math.sin(-angle - Math.PI / 2),
+          endY = corner.y + this.shadow_length * Math.cos(-angle - Math.PI / 2),
+          startX = this.x,
+          startY = this.y;
         angles.push(angle);
-        points.push({
-          endX: endX,
-          endY: endY,
-          startX: corner.x,
-          startY: corner.y
-        });
+        points.push({ endX, endY, startX, startY });
       }
 
       for (let i = points.length - 1; i >= 0; i--) {
