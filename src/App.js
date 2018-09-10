@@ -49,11 +49,10 @@ const Body = styled.div`
     font-size: 1.1rem;
   }
 `;
-const ScrollBlock = styled.div`
+
+const FixedBlock = styled.div`
   position: fixed;
-  content: "▼ Scroll ▼";
   opacity: ${props => props.o};
-  bottom: 2.5rem;
   z-index: 1;
   left: 0;
   right: 0;
@@ -67,6 +66,20 @@ const ScrollBlock = styled.div`
   text-indent: 2px;
   color: white;
   font-weight: bold;
+`;
+
+const ScrollBlock = FixedBlock.extend`
+  content: "▼ Scroll ▼";
+  bottom: 2.5rem;
+`;
+
+const LogoBlock = FixedBlock.extend`
+  opacity: 0.2;
+  top: 20vh;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const H3 = styled.h3`
@@ -239,6 +252,7 @@ const TwinThread = styled.div`
   max-width: 64rem;
   width: 100%;
   height: 30vh;
+  z-index: 2;
   padding: 1rem 2rem;
   overflow: hidden;
   @media (max-width: 700px) {
@@ -450,7 +464,13 @@ class App extends Component {
             ]}
           />
         </Section>
-        <Section height={40} marginTop={30} style={{ padding: "0 3rem" }}>
+        <Section height={100} style={{ padding: "0 3rem" }}>
+          <SectionInner>
+            <LogoBlock>
+              <img src={logo} style={{ width: "40vw", marginRight: ".5rem" }} />
+            </LogoBlock>
+          </SectionInner>
+          <div style={{ height: "30vh" }} />
           <H3
             style={{
               width: "100%",
@@ -476,10 +496,7 @@ class App extends Component {
                 letterSpacing: 1
               }}
             >
-              <img
-                src={logo}
-                style={{ height: "2rem", marginRight: ".5rem" }}
-              />
+              <img src={logo} style={{ width: "2rem", marginRight: ".5rem" }} />
               <span>TWIN</span>
               <span style={{ opacity: 0.5 }}>THREAD</span>
             </H3>
@@ -490,10 +507,19 @@ class App extends Component {
             </P>
           </TwinThread>
         </Section>
-        <Section height={100} marginTop={0}>
+        <Section height={70}>
+          <SectionInner>
+            <LogoBlock>
+              <img
+                src={logo}
+                style={{ height: "40vw", marginRight: ".5rem" }}
+              />
+            </LogoBlock>
+          </SectionInner>
           <span style={{ zIndex: 20 }}>
             Contact me at <S className="selected">brent@brentbaum.com</S>
           </span>
+          <div style={{ height: "10vh" }} />
         </Section>
       </Main>
     ];
