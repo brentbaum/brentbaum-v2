@@ -7,6 +7,59 @@ function resize(deltaX = 0, deltaY = 0) {
   c.height = box.height + deltaY;
 }
 
+const otherClose = (c, x, y, others) => {
+  const distances = others.map(
+    box =>
+      Math.pow((box.x - x) / c.width, 2) + Math.pow((box.y - y) / c.height, 2)
+  );
+  return distances.some(d => d < 0.03);
+};
+
+// maxX, minX, maxY, minY define the area that shapes aren't allowed into.
+const mobilePositionOptions = {
+  maxX: 1,
+  maxY: 0.6,
+  minY: 0.15,
+  rangeX: 0.85,
+  baseX: 0.075,
+  rangeY: 0.85,
+  baseY: 0.075
+};
+
+const desktopPositionOptions = {
+  maxX: 0.5,
+  maxY: 0.7,
+  minY: 0.25,
+  rangeX: 0.8,
+  baseX: 0.1,
+  rangeY: 0.9,
+  baseY: 0.05
+};
+
+let iterations = 0;
+const generatePositions = (c, box, others, opts) => {
+  while (
+    box.x < 0 ||
+    box.y < 0 ||
+    (box.x < opts.maxX * c.width &&
+      box.y < opts.maxY * c.height &&
+      box.y > opts.minY * c.height) ||
+    otherClose(c, box.x, box.y, others)
+  ) {
+    iterations++;
+    if (iterations > 10000) {
+      window.location = "/";
+    }
+    box.x = Math.floor(
+      Math.random() * c.width * opts.rangeX + opts.baseX * c.width
+    );
+    box.y = Math.floor(
+      Math.random() * c.height * opts.rangeY + opts.baseY * c.height
+    );
+  }
+  opts = {};
+};
+
 export const start = () => {
   var c = document.getElementById("box-canvas");
   var ctx = c.getContext("2d");
@@ -36,17 +89,6 @@ export const start = () => {
     ctx.fill();
   }
 
-  function otherClose(x, y, others) {
-    const distances = others.map(
-      box =>
-        Math.pow((box.x - x) / c.width, 2) + Math.pow((box.y - y) / c.height, 2)
-    );
-    return distances.some(d => d < 0.03);
-    return false;
-  }
-
-  let iterations = 0;
-
   function Box(others, index) {
     this.scale = 0.00001;
     this.half_size = Math.floor(
@@ -56,37 +98,9 @@ export const start = () => {
     this.y = -1;
     this.target = 0;
     if (c.width < 500) {
-      while (
-        this.x < 0 ||
-        this.y < 0 ||
-        (this.x < 1.0 * c.width &&
-          this.y < 0.6 * c.height &&
-          this.y > 0.15 * c.height) ||
-        otherClose(this.x, this.y, others)
-      ) {
-        iterations++;
-        if (iterations > 10000) {
-          window.location = "/";
-        }
-        this.x = Math.floor(Math.random() * c.width * 0.85 + 0.075 * c.width);
-        this.y = Math.floor(Math.random() * c.height * 0.85 + 0.075 * c.height);
-      }
+      generatePositions(c, this, others, mobilePositionOptions);
     } else {
-      while (
-        this.x < 0 ||
-        this.y < 0 ||
-        (this.x < 0.5 * c.width &&
-          this.y < 0.7 * c.height &&
-          this.y > 0.25 * c.height) ||
-        otherClose(this.x, this.y, others)
-      ) {
-        iterations++;
-        if (iterations > 10000) {
-          window.location = "/";
-        }
-        this.x = Math.floor(Math.random() * c.width * 0.8 + 0.1 * c.width);
-        this.y = Math.floor(Math.random() * c.height * 0.9 + 0.05 * c.height);
-      }
+      generatePositions(c, this, others, desktopPositionOptions);
     }
     this.r = (2 + Math.random()) * Math.PI;
     this.shadow_length = 2000;
