@@ -464,7 +464,7 @@ class App extends Component {
             ]}
           />
         </Section>
-        <Section height={100} style={{ padding: "0 3rem" }}>
+        <Section height={100} style={{ padding: "0 3rem", marginTop: "-12vh" }}>
           <SectionInner>
             <LogoBlock>
               <img src={logo} style={{ width: "40vw", marginRight: ".5rem" }} />
