@@ -269,10 +269,7 @@ const L = ({
     <F
       onMouseLeave={() => onChange({ color: "white" })}
       onMouseEnter={() => onChange({ color })}
-      onClick={e => {
-        //onChange({ o: 0, selected: color });
-        //onSelect(e);
-      }}
+      onClick={e => onSelect(e)}
       style={{
         display: d,
         opacity: o,
@@ -287,7 +284,7 @@ const L = ({
           color: "white",
           opacity: 1,
           position: "fixed",
-          top: position.y - 5,
+          top: position.y - 3,
           left: position.x,
           transition: "top 800ms, left 800ms"
         }}
@@ -307,31 +304,33 @@ class App extends Component {
   green = "#5cd3ad";
   blue = "#70bfff";
 
+  text = {
+    developer: "Functional development in React and Python.",
+    "product design":
+      "Specializing in creating data-driven decision making products.",
+    research:
+      "Machine Learning, data pipelines, frontend build systems, and more.",
+    TwinThread:
+      "Industrial Internet of Things optimization and workflow platform for Fortune 5000 companies."
+  };
+
   onChange = change => this.setState(change);
 
   L = (color, text) => {
-    const { setTimeout } = this.props;
-    const { d, o } = this.state;
+    const { d, o, t, selected } = this.state;
     const component = (
       <L
         d={d}
         o={o}
         color={color}
         onChange={this.onChange}
-        selected={this.state.selected}
+        selected={selected || t === text ? color : null}
         onSelect={e => {
+          e.stopPropagation();
           this.setState({
-            position: e.target.getBoundingClientRect()
+            position: e.target.getBoundingClientRect(),
+            t: text
           });
-          setTimeout(() => {
-            this.setState({
-              position: {
-                x: window.innerWidth * 0.1,
-                y: 120
-              },
-              d: "none"
-            });
-          }, 300);
         }}
         position={this.state.position}
       >
@@ -341,7 +340,8 @@ class App extends Component {
     return component;
   };
   render() {
-    const { d, o } = this.state;
+    const { d, o, t } = this.state;
+    console.log(t);
     return [
       <Outline color={this.state.selected || this.state.color || "#f1f1f2"}>
         <BackgroundAnimation selected={this.state.selected} />
@@ -355,6 +355,7 @@ class App extends Component {
             bottom: "1.5rem",
             left: "1.5rem"
           }}
+          onClick={() => this.setState({ t: null })}
         >
           <Body style={{ flex: 1, width: "100%" }}>
             <Intro o={o}>
@@ -377,7 +378,10 @@ class App extends Component {
                 <F>, an IIoT analytics business.</F>
               </P>
               <P>
-                <F>I create technologies that empower, not replace, humans.</F>
+                <F>
+                  {this.text[t] ||
+                    "I create technologies that empower, not replace, humans."}
+                </F>
               </P>
             </Intro>
           </Body>
