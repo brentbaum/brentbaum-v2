@@ -61,21 +61,21 @@ const generatePositions = (c, box, others, opts) => {
 };
 
 export const start = () => {
-  var c = document.getElementById("box-canvas");
-  var ctx = c.getContext("2d");
+  const c = document.getElementById("box-canvas");
+  const ctx = c.getContext("2d");
 
-  var box = c.getBoundingClientRect();
-  var light = {
+  let box = c.getBoundingClientRect();
+  let light = {
     x: box.width * 0.5,
     y: box.height * 0.8
   };
 
-  var colors = ["#f5c156", "#e6616b", "#5cd3ad", "#70bfff"];
+  const colors = ["#f5c156", "#e6616b", "#5cd3ad", "#70bfff"];
 
   function drawLight() {
     ctx.beginPath();
     ctx.arc(light.x, light.y, 5000, 0, 2 * Math.PI);
-    var gradient = ctx.createRadialGradient(
+    const gradient = ctx.createRadialGradient(
       light.x,
       light.y,
       0,
@@ -102,7 +102,7 @@ export const start = () => {
     } else {
       generatePositions(c, this, others, desktopPositionOptions);
     }
-    this.r = (2 + Math.random()) * Math.PI;
+    this.rotation = (2 + Math.random()) * Math.PI;
     this.shadow_length = 2000;
     this.color = colors[index % colors.length];
 
@@ -110,38 +110,27 @@ export const start = () => {
       if (this.scale < 1) {
         this.scale *= 1.3;
       }
-      var full = (Math.PI * 2) / 4;
-      var half_size = this.half_size * this.scale;
-      var x = this.x;
-      var y = this.y - document.getElementById("main").scrollTop * 0.75;
+      const full = (Math.PI * 2) / 4;
+      const half_size = this.half_size * this.scale;
+      const x = this.x;
+      const y = this.y - document.getElementById("main").scrollTop * 0.75;
 
-      var p1 = {
-        x: x + half_size * Math.sin(this.r),
-        y: y + half_size * Math.cos(this.r)
-      };
-      var p2 = {
-        x: x + half_size * Math.sin(this.r + full),
-        y: y + half_size * Math.cos(this.r + full)
-      };
-      var p3 = {
-        x: x + half_size * Math.sin(this.r + full * 2),
-        y: y + half_size * Math.cos(this.r + full * 2)
-      };
-      var p4 = {
-        x: x + half_size * Math.sin(this.r + full * 3),
-        y: y + half_size * Math.cos(this.r + full * 3)
-      };
+      const getDot = (half_size, angle) => ({
+        x: x + half_size * Math.sin(angle),
+        y: y + half_size * Math.cos(angle)
+      });
 
       return {
-        p1: p1,
-        p2: p2,
-        p3: p3,
-        p4: p4
+        p1: getDot(half_size, this.rotation),
+        p2: getDot(half_size, this.rotation + full),
+        p3: getDot(half_size, this.rotation + full * 2),
+
+        p4: getDot(half_size, this.rotation + full * 3)
       };
     };
     this.rotate = function() {
       var speed = (60 - this.half_size) / 20;
-      this.r += speed * 0.002;
+      this.rotation += speed * 0.002;
       //this.x += speed;
       //this.y += speed;
     };
