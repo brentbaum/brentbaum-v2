@@ -1,8 +1,8 @@
 import React from "react";
 
 function resize(deltaX = 0, deltaY = 0) {
-  var c = document.getElementById("box-canvas");
-  var box = c.getBoundingClientRect();
+  const c = document.getElementById("box-canvas");
+  const box = c.getBoundingClientRect();
   c.width = box.width + deltaX;
   c.height = box.height + deltaY;
 }
@@ -106,7 +106,7 @@ export const start = () => {
     this.shadow_length = 2000;
     this.color = colors[index % colors.length];
 
-    this.getDots = function() {
+    this.getCorners = function() {
       if (this.scale < 1) {
         this.scale *= 1.3;
       }
@@ -115,32 +115,32 @@ export const start = () => {
       const x = this.x;
       const y = this.y - document.getElementById("main").scrollTop * 0.75;
 
-      const getDot = (half_size, angle) => ({
+      const getCorner = (half_size, angle) => ({
         x: x + half_size * Math.sin(angle),
         y: y + half_size * Math.cos(angle)
       });
 
       return {
-        p1: getDot(half_size, this.rotation),
-        p2: getDot(half_size, this.rotation + full),
-        p3: getDot(half_size, this.rotation + full * 2),
+        p1: getCorner(half_size, this.rotation),
+        p2: getCorner(half_size, this.rotation + full),
+        p3: getCorner(half_size, this.rotation + full * 2),
 
-        p4: getDot(half_size, this.rotation + full * 3)
+        p4: getCorner(half_size, this.rotation + full * 3)
       };
     };
     this.rotate = function() {
-      var speed = (60 - this.half_size) / 20;
+      const speed = (60 - this.half_size) / 20;
       this.rotation += speed * 0.002;
       //this.x += speed;
       //this.y += speed;
     };
     this.draw = function() {
-      var dots = this.getDots();
+      const corners = this.getCorners();
       ctx.beginPath();
-      ctx.moveTo(dots.p1.x, dots.p1.y);
-      ctx.lineTo(dots.p2.x, dots.p2.y);
-      ctx.lineTo(dots.p3.x, dots.p3.y);
-      ctx.lineTo(dots.p4.x, dots.p4.y);
+      ctx.moveTo(corners.p1.x, corners.p1.y);
+      ctx.lineTo(corners.p2.x, corners.p2.y);
+      ctx.lineTo(corners.p3.x, corners.p3.y);
+      ctx.lineTo(corners.p4.x, corners.p4.y);
       ctx.fillStyle = this.color;
       ctx.fill();
 
@@ -159,27 +159,28 @@ export const start = () => {
       }
     };
     this.drawShadow = function() {
-      var dots = this.getDots();
-      var angles = [];
-      var points = [];
+      const corners = this.getCorners();
+      let angles = [];
+      let points = [];
 
-      for (let dot in dots) {
-        var angle = Math.atan2(light.y - dots[dot].y, light.x - dots[dot].x);
-        var endX =
-          dots[dot].x + this.shadow_length * Math.sin(-angle - Math.PI / 2);
-        var endY =
-          dots[dot].y + this.shadow_length * Math.cos(-angle - Math.PI / 2);
+      for (let key in corners) {
+        const corner = corners[key];
+        const angle = Math.atan2(light.y - corner.y, light.x - corner.x);
+        const endX =
+          corner.x + this.shadow_length * Math.sin(-angle - Math.PI / 2);
+        const endY =
+          corner.y + this.shadow_length * Math.cos(-angle - Math.PI / 2);
         angles.push(angle);
         points.push({
           endX: endX,
           endY: endY,
-          startX: dots[dot].x,
-          startY: dots[dot].y
+          startX: corner.x,
+          startY: corner.y
         });
       }
 
-      for (var i = points.length - 1; i >= 0; i--) {
-        var n = i == 3 ? 0 : i + 1;
+      for (let i = points.length - 1; i >= 0; i--) {
+        const n = i == 3 ? 0 : i + 1;
         ctx.beginPath();
         ctx.moveTo(points[i].startX, points[i].startY);
         ctx.lineTo(points[n].startX, points[n].startY);
@@ -191,17 +192,17 @@ export const start = () => {
     };
   }
 
-  var boxes = [];
+  let boxes = [];
 
   function draw() {
     ctx.clearRect(0, 0, c.width, c.height);
     drawLight();
 
-    for (var i = 0; i < boxes.length; i++) {
+    for (let i = 0; i < boxes.length; i++) {
       boxes[i].rotate();
       boxes[i].drawShadow();
     }
-    for (var i = 0; i < boxes.length; i++) {
+    for (let i = 0; i < boxes.length; i++) {
       boxes[i].checkTarget();
       boxes[i].draw();
     }
