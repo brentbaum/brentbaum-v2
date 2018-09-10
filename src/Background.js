@@ -158,7 +158,6 @@ export const start = () => {
     };
     this.drawShadow = function() {
       const corners = this.getCorners();
-      let angles = [];
       let points = [];
 
       for (let key in corners) {
@@ -166,11 +165,11 @@ export const start = () => {
         const angle = Math.atan2(light.y - corner.y, light.x - corner.x),
           endX = corner.x + this.shadow_length * Math.sin(-angle - Math.PI / 2),
           endY = corner.y + this.shadow_length * Math.cos(-angle - Math.PI / 2),
-          startX = this.x,
-          startY = this.y;
-        angles.push(angle);
+          startX = corner.x,
+          startY = corner.y;
         points.push({ endX, endY, startX, startY });
       }
+      console;
 
       for (let i = points.length - 1; i >= 0; i--) {
         const n = i == 3 ? 0 : i + 1;
@@ -214,8 +213,8 @@ export const start = () => {
 
   window.onresize = () => resize();
   window.onmousemove = function(e) {
-    light.x = e.screenX - 24;
-    light.y = e.screenY - 120;
+    light.x = e.clientX - 24;
+    light.y = e.clientY - 24;
   };
 
   return { boxes, resize, draw };
