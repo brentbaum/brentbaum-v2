@@ -4,7 +4,6 @@ import ReactTimeout from "react-timeout";
 import { BackgroundAnimation } from "./Background";
 import styled from "styled-components";
 import "./App.css";
-import { Header } from "./Header";
 import logo from "./tt-logo.svg";
 
 const Main = styled.div`
@@ -290,26 +289,22 @@ const L = ({
         pointerEvents: "auto"
       }}
     >
-      <S color={color}>{children}</S>
+      <S color={color} className={selected === color ? "selected" : ""}>
+        {children}
+      </S>
     </F>
-    {selected === color && (
-      <F
-        style={{
-          color: "white",
-          opacity: 1,
-          position: "fixed",
-          top: position.y - 3,
-          left: position.x,
-          transition: "top 800ms, left 800ms"
-        }}
-      >
-        <S color={color} className={selected === color ? "selected" : ""}>
-          {children}
-        </S>
-      </F>
-    )}
   </React.Fragment>
 );
+
+const B = styled.div`
+  position: absolute;
+  left: -16px;
+  top: 8px;
+  bottom: 8px;
+  width: ${props => (!!props.selected ? 8 : 0)}px;
+  ${props => (!!props.selected ? "transition: width 150ms ease-in-out" : "")};
+  background: ${props => props.color};
+`;
 
 class App extends Component {
   state = { color: "white", o: 0.95, selected: null };
@@ -317,6 +312,15 @@ class App extends Component {
   red = "#e6616b";
   green = "#5cd3ad";
   blue = "#70bfff";
+
+  defaultText = "I create technologies that empower, not replace, humans.";
+
+  colors = {
+    developer: this.yellow,
+    "product design": this.red,
+    research: this.green,
+    TwinThread: this.blue
+  };
 
   text = {
     developer: "Functional development in React and Python.",
@@ -341,9 +345,11 @@ class App extends Component {
         selected={selected || t === text ? color : null}
         onSelect={e => {
           e.stopPropagation();
-          this.setState({
-            position: e.target.getBoundingClientRect(),
-            t: text
+          this.setState({ t: null });
+          this.props.setTimeout(() => {
+            this.setState({
+              t: text
+            });
           });
         }}
         position={this.state.position}
@@ -354,11 +360,11 @@ class App extends Component {
     return component;
   };
   render() {
-    const { d, o, t } = this.state;
-    console.log(t);
+    const { d, o, t, color, selected } = this.state;
+    console.log(t, this.colors[t]);
     return [
-      <Outline color={this.state.selected || this.state.color || "#f1f1f2"}>
-        <BackgroundAnimation selected={this.state.selected} />
+      <Outline color={selected || this.colors[t] || color || "#f1f1f2"}>
+        <BackgroundAnimation selected={selected} />
       </Outline>,
       <Main id="main" o={1}>
         <Flex
@@ -391,11 +397,9 @@ class App extends Component {
                 {this.L(this.blue, "TwinThread")}
                 <F>, an IIoT analytics business.</F>
               </P>
-              <P>
-                <F>
-                  {this.text[t] ||
-                    "I create technologies that empower, not replace, humans."}
-                </F>
+              <P style={{ position: "relative" }}>
+                <B color={this.colors[t]} selected={t} />
+                <F>{this.text[t] || this.defaultText}</F>
               </P>
             </Intro>
           </Body>
