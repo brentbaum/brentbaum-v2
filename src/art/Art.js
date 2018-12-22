@@ -1,9 +1,16 @@
 import React from "react";
 import { go } from "./draw";
+import ReactTimeout from "react-timeout";
 
-export class Art extends React.Component {
-  componentDidMount() {
+class ArtComponent extends React.Component {
+  draw = () => {
     go();
+    this.props.setTimeout(() => {
+      this.draw();
+    }, 3000);
+  };
+  componentDidMount() {
+    this.draw();
   }
 
   shouldComponentUpdate() {
@@ -13,3 +20,5 @@ export class Art extends React.Component {
     return <canvas id="art" />;
   }
 }
+
+export const Art = ReactTimeout(ArtComponent);
