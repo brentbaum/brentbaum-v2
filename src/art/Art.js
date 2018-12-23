@@ -7,7 +7,7 @@ class ArtComponent extends React.Component {
     go();
     this.props.setTimeout(() => {
       this.draw();
-    }, 3000);
+    }, 15000);
   };
   componentDidMount() {
     this.draw();
