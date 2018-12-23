@@ -91,14 +91,14 @@ export const go = () => {
   var canvas = document.querySelector("canvas");
   var context = canvas.getContext("2d");
   console.log("Hello!");
-  var sizeX = window.innerWidth / 2;
-  var sizeY = window.innerHeight / 2;
+  var sizeX = window.innerWidth;
+  var sizeY = window.innerHeight;
 
   var dpr = window.devicePixelRatio;
   canvas.style.width = window.innerWidth + "px";
   canvas.style.height = window.innerHeight + "px";
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
+  canvas.width = window.innerWidth * dpr;
+  canvas.height = window.innerHeight * dpr;
   context.scale(dpr, dpr);
   context.lineWidth = 8;
   var step = sizeX / 12;
