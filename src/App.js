@@ -433,9 +433,9 @@ class App extends Component {
           <ProjectRow
             cards={[
               <ProjectCard
-                title={"TwinThread Web Application"}
+                title={"TwinThread Client"}
                 body={
-                  "Create a data-dense interface to drive insights through machine learning in the Industrial IoT."
+                  "Create a data-dense client to drive insights through machine learning in the Industrial IoT."
                 }
                 href={"https://app.twinthread.com"}
               />,
