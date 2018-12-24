@@ -464,7 +464,7 @@ class App extends Component {
                 body={
                   "Making powerful financial projections accessible to private school heads."
                 }
-                href={"http://helme.io"}
+                href={"https://www.helme.io"}
               />
             ]}
           />
@@ -505,7 +505,7 @@ class App extends Component {
               <span>TWIN</span>
               <span style={{ opacity: 0.5 }}>THREAD</span>
             </H3>
-            <H4>Software Engineer</H4>
+            <H4>Chief Product Officer</H4>
             <P style={{ maxWidth: "24rem", opacity: 0.9 }}>
               Industrial Internet of Things business applying machine learning
               to solve fleet-scale optimization.
@@ -522,7 +522,10 @@ class App extends Component {
             </LogoBlock>
           </SectionInner>
           <span style={{ zIndex: 20 }}>
-            Contact me at <S className="selected">brent@brentbaum.com</S>
+            Contact me at{" "}
+            <a href="mailto:brent@brentbaum.com?Subject=hello" target="_top">
+              <S className="selected">brent@brentbaum.com</S>
+            </a>
           </span>
           <div style={{ height: "10vh" }} />
         </Section>
