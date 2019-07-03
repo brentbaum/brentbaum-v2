@@ -11,7 +11,7 @@ console.log(Router);
 let App = () => (
   <Router>
     <Homepage path="/" />
-    <Art path="art" />
+    <Art path="/art" />
   </Router>
 );
 console.log(App);
