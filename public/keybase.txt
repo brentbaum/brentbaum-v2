@@ -1,0 +1,56 @@
+==================================================================
+https://keybase.io/brentbaum
+--------------------------------------------------------------------
+
+I hereby claim:
+
+  * I am an admin of https://www.brentbaum.com
+  * I am brentbaum (https://keybase.io/brentbaum) on keybase.
+  * I have a public key ASBD1Y948AXbIAwh7DKuMkToSxM9PU58lCpijnncBjRTtgo
+
+To do so, I am signing this object:
+
+{
+  "body": {
+    "key": {
+      "eldest_kid": "0101a8d08b505c84ea868c9fd9634a0c1aa327c82c461ed16095ae13289257199a4b0a",
+      "host": "keybase.io",
+      "kid": "012043d58f78f005db200c21ec32ae3244e84b133d3d4e7c942a628e79dc063453b60a",
+      "uid": "3d99ffcee0e2d4b7c56dbda01a9bb619",
+      "username": "brentbaum"
+    },
+    "merkle_root": {
+      "ctime": 1565191478,
+      "hash": "00d613c98efe54b712ecee7de1a097e6322a807e52a439cffcc3e3eb01bb2d9762bbd9de85c988ad6b53f48b0243c0429568859f920412f6ea87c38786bd7642",
+      "hash_meta": "1bda59d88f520115ce6dcdf29477ae08e935618c5d14ada22559adadfa40b3b1",
+      "seqno": 5963103
+    },
+    "service": {
+      "entropy": "qoUrWYnqd6PMDRJrxdbPQMKt",
+      "hostname": "www.brentbaum.com",
+      "protocol": "https:"
+    },
+    "type": "web_service_binding",
+    "version": 2
+  },
+  "client": {
+    "name": "keybase.io go client",
+    "version": "4.2.0"
+  },
+  "ctime": 1565191489,
+  "expire_in": 504576000,
+  "prev": "ccd4ab8c1846b031acb6c478f0786c24c56c7606f9cb7f8d8290006aafa3cc12",
+  "seqno": 14,
+  "tag": "signature"
+}
+
+which yields the signature:
+
+hKRib2R5hqhkZXRhY2hlZMOpaGFzaF90eXBlCqNrZXnEIwEgQ9WPePAF2yAMIewyrjJE6EsTPT1OfJQqYo553AY0U7YKp3BheWxvYWTESpcCDsQgzNSrjBhGsDGstsR48HhsJMVsdgb5y3+NgpAAaq+jzBLEIGLrzMSzugsUq5BpOh7/8UwjfhZAOU4ypoHdFIGjM92DAgHCo3NpZ8RAYMqcVh9W1MkD4V5pTe5SdZIzDKep/gxcQG74YrOzRoFiJ3/Dvx0Dyj6ohDOi7pQ//jrV4SNw4L0KzIQDJrKuAqhzaWdfdHlwZSCkaGFzaIKkdHlwZQildmFsdWXEIM/K12SRwHPRGDk3W9+aZ2MQG+3k7k/0CaYqcaseqQ0co3RhZ80CAqd2ZXJzaW9uAQ==
+
+And finally, I am proving ownership of this host by posting or
+appending to this document.
+
+View my publicly-auditable identity here: https://keybase.io/brentbaum
+
+==================================================================
