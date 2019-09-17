@@ -7,11 +7,11 @@ import { Router } from "@reach/router";
 
 import { Art } from "./art/Art";
 
-console.log(Router);
 let App = () => (
   <Router>
     <Homepage path="/" />
     <Art path="/art" />
+    {/* <Wisdom path="/wisdom" /> */}
   </Router>
 );
 console.log(App);

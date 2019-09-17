@@ -314,7 +314,8 @@ class App extends Component {
   green = "#5cd3ad";
   blue = "#70bfff";
 
-  defaultText = "I create technologies that empower, not replace, humans.";
+  defaultText =
+    "I like to solve business problems with technology (usually bits and bytes).";
 
   colors = {
     developer: this.yellow,
