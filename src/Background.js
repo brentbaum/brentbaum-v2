@@ -169,7 +169,6 @@ export const start = () => {
           startY = corner.y;
         points.push({ endX, endY, startX, startY });
       }
-      console;
 
       for (let i = points.length - 1; i >= 0; i--) {
         const n = i == 3 ? 0 : i + 1;

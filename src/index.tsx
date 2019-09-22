@@ -6,14 +6,15 @@ import registerServiceWorker from "./registerServiceWorker";
 import { Router } from "@reach/router";
 
 import { Art } from "./art/Art";
+import { NoteBook } from "./NoteBook";
 
 let App = () => (
   <Router>
     <Homepage path="/" />
     <Art path="/art" />
+    <NoteBook path="/notebook" />
     {/* <Wisdom path="/wisdom" /> */}
   </Router>
 );
-console.log(App);
 
 ReactDOM.render(<App />, document.getElementById("root"));
