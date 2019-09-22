@@ -6,13 +6,13 @@ import registerServiceWorker from "./registerServiceWorker";
 import { Router } from "@reach/router";
 
 import { Art } from "./art/Art";
-import { NoteBook } from "./NoteBook";
+import { NotFound } from "./NotFound";
 
 let App = () => (
   <Router>
     <Homepage path="/" />
     <Art path="/art" />
-    <NoteBook path="/notebook" />
+    <NotFound path="/lost" />
     {/* <Wisdom path="/wisdom" /> */}
   </Router>
 );
