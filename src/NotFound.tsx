@@ -1,5 +1,5 @@
 import React from "react";
-import { RouteComponentProps } from "@reach/router";
+import { RouteComponentProps, Link } from "@reach/router";
 const base = 0.7;
 
 export const NotFound: React.FunctionComponent<RouteComponentProps> = () => {
@@ -28,6 +28,16 @@ export const NotFound: React.FunctionComponent<RouteComponentProps> = () => {
           <div style={{ marginTop: 24 }}>
             "{title}", by {author}
           </div>
+          <Link
+            style={{
+              marginLeft: 16,
+              marginTop: 8,
+              color: "black"
+            }}
+            to="/"
+          >
+            {"<- Go home"}
+          </Link>
         </code>
       </div>
     </div>
