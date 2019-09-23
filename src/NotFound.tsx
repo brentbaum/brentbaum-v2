@@ -1,26 +1,38 @@
 import React from "react";
 import { RouteComponentProps } from "@reach/router";
+const base = 0.7;
 
-export const NotFound: React.FunctionComponent<RouteComponentProps> = () => (
-  <div
-    className="page"
-    style={{ display: "flex", justifyContent: "center", alignItems: "center" }}
-  >
-    <div>
-      <code style={{ lineHeight: 1.4 }}>
-        <div style={{ marginBottom: 24, opacity: 0.6 }}>
-          404: that page is Lost
-        </div>
-        {poemText.split("\n").map(text => (
-          <div key={text}>{text}</div>
-        ))}
-        <div style={{ marginTop: 24 }}>
-          "{title}", by {author}
-        </div>
-      </code>
+export const NotFound: React.FunctionComponent<RouteComponentProps> = () => {
+  const count = poemText.split("\n").length;
+  const getOpacity = (i: number) =>
+    base + (1 - base) * ((i + 2 * (i % 2)) / count);
+  return (
+    <div
+      className="page"
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center"
+      }}
+    >
+      <div>
+        <code style={{ lineHeight: 1.4 }}>
+          <div style={{ marginBottom: 24, opacity: base }}>
+            404: that page is Lost
+          </div>
+          {poemText.split("\n").map((text, i) => (
+            <div key={text} style={{ opacity: getOpacity(i) }}>
+              {text}
+            </div>
+          ))}
+          <div style={{ marginTop: 24 }}>
+            "{title}", by {author}
+          </div>
+        </code>
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 const poemText = `
 Stand still. The trees ahead and bushes beside you
